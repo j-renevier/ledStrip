@@ -1,0 +1,236 @@
+openapi: 3.0.0
+info:
+  title: LED Controller API
+  description: API pour contrôler une bande LED via un serveur web hébergé sur un ESP8266. Chaque route permet de configurer les paramètres des LED, tels que l'état, la luminosité, la vitesse, les couleurs et les modes d'éclairage.
+  version: 1.1.0
+servers:
+  - url: http://{host}
+    description: Serveur local pour accéder à l'API
+    variables:
+      host:
+        default: 192.168.1.201
+        description: Adresse IP du serveur configurée sur l'ESP8266.
+
+paths:
+  /update:
+    get:
+      summary: Allumer ou éteindre les LED
+      description: Cette route permet de changer l'état des LED (allumées ou éteintes).
+      parameters:
+        - name: state
+          in: query
+          description: |
+            État souhaité des LED :
+            - `1` : Allumer les LED.
+            - `0` : Éteindre les LED.
+          required: true
+          schema:
+            type: integer
+            enum: [0, 1]
+      responses:
+        '200':
+          description: Succès, l'état des LED a été mis à jour.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "1"
+        '400':
+          description: Requête invalide (paramètre `state` manquant ou incorrect).
+
+  /slider1:
+    get:
+      summary: Modifier la luminosité des LED
+      description: Permet de régler la luminosité globale de la bande LED.
+      parameters:
+        - name: value
+          in: query
+          description: Niveau de luminosité (de 0 à 255).
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 255
+      responses:
+        '200':
+          description: Succès, la luminosité a été mise à jour.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        '400':
+          description: Requête invalide (paramètre `value` manquant ou hors des limites).
+
+  /slider2:
+    get:
+      summary: Modifier la vitesse des animations
+      description: Permet de régler la vitesse des animations lumineuses.
+      parameters:
+        - name: value
+          in: query
+          description: Valeur de la vitesse (0 = très lent, 1000 = très rapide).
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 1000
+      responses:
+        '200':
+          description: Succès, la vitesse de l'animation a été mise à jour.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        '400':
+          description: Requête invalide (paramètre `value` manquant ou hors des limites).
+
+  /slider3:
+    get:
+      summary: Modifier la couleur principale
+      description: Permet de changer la couleur principale utilisée dans les animations ou modes statiques.
+      parameters:
+        - name: value
+          in: query
+          description: Couleur au format RGB, par exemple `"255,0,0"` pour le rouge.
+          required: true
+          schema:
+            type: string
+            pattern: '^\d{1,3},\d{1,3},\d{1,3}$'
+            example: "255,0,0"
+      responses:
+        '200':
+          description: Succès, la couleur principale a été mise à jour.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        '400':
+          description: Requête invalide (paramètre mal formaté ou manquant).
+
+  /slider4:
+    get:
+      summary: Modifier la deuxième couleur
+      description: Permet de changer une couleur secondaire utilisée dans certains modes d'animation.
+      parameters:
+        - name: value
+          in: query
+          description: Couleur secondaire au format RGB, par exemple `"0,255,0"` pour le vert.
+          required: true
+          schema:
+            type: string
+            pattern: '^\d{1,3},\d{1,3},\d{1,3}$'
+            example: "0,255,0"
+      responses:
+        '200':
+          description: Succès, la deuxième couleur a été mise à jour.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+
+  /slider5:
+    get:
+      summary: Modifier la troisième couleur
+      description: Permet de changer une troisième couleur utilisée dans certains modes nécessitant plusieurs couleurs.
+      parameters:
+        - name: value
+          in: query
+          description: Troisième couleur au format RGB, par exemple `"0,0,255"` pour le bleu.
+          required: true
+          schema:
+            type: string
+            pattern: '^\d{1,3},\d{1,3},\d{1,3}$'
+            example: "0,0,255"
+      responses:
+        '200':
+          description: Succès, la troisième couleur a été mise à jour.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+
+  /select:
+    get:
+      summary: Modifier le mode d'éclairage
+      description: Permet de sélectionner un mode d’éclairage prédéfini.
+      parameters:
+        - name: value
+          in: query
+          description: |
+            Identifiant du mode d'éclairage :
+            - `1` : Mode par défaut.
+            - `2` : Une couleur.
+            - `3` : Deux couleurs.
+            - `4` : Trois couleurs.
+            - `5` : Arc-en-ciel.
+            - `10` : Avance.
+            - `11` : Recule.
+            - `12` : Avance/Recule.
+            - `13` : Couleurs arc-en-ciel tournantes.
+            - `14` : Couleurs arc-en-ciel clignotantes.
+            - `15` : Rayures arc-en-ciel.
+            - `16` : Mode aléatoire.
+          required: true
+          schema:
+            type: integer
+            enum: [1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 16]
+      responses:
+        '200':
+          description: Succès, le mode d'éclairage a été activé.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+
+  /state:
+    get:
+      summary: Récupérer l'état actuel des LED
+      description: Retourne l'état actuel des LED, y compris l'état marche/arrêt, la luminosité, la vitesse, le mode, et les couleurs.
+      responses:
+        '200':
+          description: Succès, retourne l’état des LED sous forme JSON.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LEDState'
+
+components:
+  schemas:
+    LEDState:
+      type: object
+      properties:
+        state:
+          type: integer
+          description: État actuel des LED (1 = allumé, 0 = éteint).
+        brightness:
+          type: integer
+          description: Niveau de luminosité actuel (0 à 255).
+        speed:
+          type: integer
+          description: Vitesse actuelle de l'animation (0 à 1000).
+        mode:
+          type: integer
+          description: Mode d'éclairage actuel.
+        color:
+          type: string
+          description: Couleur principale actuelle au format RGB.
+        color1:
+          type: string
+          description: Deuxième couleur actuelle au format RGB.
+        color2:
+          type: string
+          description: Troisième couleur actuelle au format RGB.
+      example:
+        state: 1
+        brightness: 128
+        speed: 500
+        mode: 5
+        color: "255,0,0"
+        color1: "0,255,0"
+        color2: "0,0,255"
