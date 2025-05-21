@@ -36,7 +36,7 @@ L’interface permet :
   - FastLED, LittleFS, ESP8266WiFi, ESPAsyncTCP, ESPAsyncWebServer.
 
 ### **v2.0.0** (En cours de développement)
-#### Nouveautés et Améliorations
+#### Objectifs 
 - **Correction de Bugs** :
   - Résolution des problèmes affectant la stabilité et les performances.
 
@@ -51,6 +51,12 @@ L’interface permet :
 
 - **Application Mobile** :
   - Développement d’une application mobile dédiée.
+
+### En cours 
+- **Refacto de l'architecture :**
+  - POO
+  - Implémentation de route supplémentaires 
+  - Implémentation de Websockets
 
 
 ## Hardware
@@ -307,7 +313,7 @@ Un point d'accès (AP) est utile si aucun réseau WiFi local n'est disponible.
      ```
 
 
-### Routes 
+### Routes V1
 
 **[DOC API](./swagger.yml/)**
 
