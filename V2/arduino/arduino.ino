@@ -1,21 +1,20 @@
-#include "./configs/config.phone.h"
+#include "./configs/config.home.h"
 
 #include "./classes/lights.h"
-#include "./classes/colors.h"
 #include "./classes/manager.h"
 #include "./classes/networks.h"
 
-Colors colors(Serial);
+String version = "2.0.0";
 
-Lights lights(Serial, colors, 30, 1.0f);
+Lights lights(Serial, NUM_LEDS, SPEED);
 Networks networks(Serial, ENVIRONMENT, IP, GATEWAY, SUBNET);
 
-Manager manager(Serial, networks, lights);
+Manager manager(Serial, networks, lights, version);
 
 void setup()
 {
   Serial.begin(115200);
-  pinMode(4, OUTPUT);
+  pinMode(2, OUTPUT);
 
   Serial.println("*** Start ***");
 

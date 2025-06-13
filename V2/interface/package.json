@@ -1,0 +1,22 @@
+{
+  "name": "interface",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "build:arduino": "cross-env ARDUINO_BUILD=true vite build"
+  },
+  "dependencies": {
+    "preact": "^10.26.5",
+    "preact-router": "^4.1.2"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.1",
+    "cross-env": "^7.0.3",
+    "vite": "^6.3.5",
+    "vite-plugin-pwa": "^1.0.0"
+  }
+}

@@ -1,0 +1,150 @@
+.selected-colors{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: left;
+  width: 100%;
+  overflow: hidden;
+  height: auto;
+  padding: 0.25rem;
+}
+
+.selected-colors .color-info .color-display{
+  height: 30px;
+  aspect-ratio: 1 / 1;
+  border-radius: 0.75rem;
+}
+
+.selected-colors .color-info .color-desc{
+  display: none;
+}
+
+.colors-container{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.color{
+  display: flex; 
+  flex-direction: column;
+  gap: 0rem;
+  padding: 0.5rem 0.5rem 1rem;
+  
+  border-radius: 0.75rem;
+  background:rgba(38, 38, 38, 0.05);
+  box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.20);
+}
+
+.color-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem
+}
+
+.color-context{
+  position: relative;
+  margin : 0 18px 0 0;
+}
+
+.is-favorite {
+  position: absolute;
+  bottom: 0;
+}
+
+.color-update{
+  display: flex;
+}
+
+.color-info{
+  display: flex; 
+  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.color-display{
+  height: 40px;
+  aspect-ratio: 1 / 1;
+  border-radius: 0.75rem;
+  box-shadow: 2px 2px 4px 0px hsla(0, 0%, 0%, 0.7);
+}
+
+.color-desc{
+  grid-column: 1 / 3;
+}
+
+
+dialog form {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 0.5rem;
+}
+
+dialog form .title {
+  align-self: center;
+
+}
+
+dialog form .setup {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: hsl(220, 20%, 40%);
+}
+
+dialog form .setup.pick-color {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+dialog form input[type="color"] {
+  height: 100px;
+  width: 100px;
+  aspect-ratio: 1 / 1;
+}
+
+
+dialog form .act {
+  align-self: flex-end;
+}
+
+.chose-network{
+  display: flex;
+}
+
+.chose-network div{
+  display: block;
+  width: 100%;
+  max-width: 300px;
+}
+
+
+.favorite-toggle {
+  display: flex;
+  justify-content: left;
+  gap: 1rem;  
+}
+
+.favorite-toggle > span {
+  height: 24px;
+  margin-top: 8.5px;
+}
+
+.favorite-toggle .switch {
+  height: 24px;
+  margin: 4px;
+}
+
+.favorite-toggle .slider:before {
+  height: 16px; 
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+}
+
+.favorite-toggle input:checked + .slider:before {
+  transform: translateX(24px);
+}

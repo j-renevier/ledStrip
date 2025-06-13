@@ -4,6 +4,9 @@
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 
+#include <AsyncJson.h>
+#include <ArduinoJson.h>
+
 #include "./classes/networks.h"
 
 Networks::Networks(HardwareSerial &_serial, String env, uint8_t configIP[4], uint8_t configGateway[4], uint8_t configSubnet[4]) : _serial(_serial)
@@ -37,18 +40,6 @@ void Networks::begin(const char *ssid, const char *password)
   _serial.println("--- BEGIN SERVER ---");
 }
 
-void Networks::initLittleFS()
-{
-  if (!LittleFS.begin())
-  {
-    _serial.println("An error has occurred while mounting LittleFS");
-  }
-  else
-  {
-    _serial.println("LittleFS mounted successfully");
-  }
-}
-
 void Networks::initWiFi(const char *ssid, const char *password)
 {
   _serial.println("*** WIFI ***");
@@ -69,7 +60,7 @@ void Networks::initWiFi(const char *ssid, const char *password)
 
   WiFi.begin(ssid, password);
   _serial.print("Connecting to WiFi ..");
-
+  (void)server;
   while (WiFi.status() != WL_CONNECTED)
   {
     _serial.print('.');
@@ -80,55 +71,102 @@ void Networks::initWiFi(const char *ssid, const char *password)
   _serial.println("--- WIFI ---");
 }
 
+void Networks::initLittleFS()
+{
+  if (!LittleFS.begin())
+  {
+    _serial.println("An error has occurred while mounting LittleFS");
+  }
+  else
+  {
+    _serial.println("LittleFS mounted successfully");
+  }
+}
+
 void Networks::initHTTP()
 {
   _serial.println("*** HTTP ***");
+  DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
+  DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+  DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "Content-Type");
 
   server->begin();
 
   _serial.println("--- HTTP ---");
 }
 
+void Networks::enableCORSGlobal() {
+  server->onNotFound([this](AsyncWebServerRequest *request) {
+    if (request->method() == HTTP_OPTIONS) {
+      AsyncWebServerResponse* response = request->beginResponse(204);
+      request->send(response);
+    }
+  });
+}
+
+void Networks::enableCORS(const char* route) {
+  server->on(route, HTTP_OPTIONS, [this](AsyncWebServerRequest *request) {
+    AsyncWebServerResponse* response = request->beginResponse(204);
+    request->send(response);
+  });
+}
+
+
 void Networks::onGet(const char *uri, RequestHandler handler)
 {
-  server->on(uri, HTTP_GET, [handler](AsyncWebServerRequest *req)
+  enableCORS(uri);
+  server->on(uri, HTTP_GET, [handler](AsyncWebServerRequest *request)
     {
-      handler(req);
+      handler(request);
     }
   );
 }
 
-void Networks::onPost(const char *uri, RequestHandler handler)
-{
-  server->on(uri, HTTP_POST, [handler](AsyncWebServerRequest *req)
-    {
-      handler(req);
+void Networks::onPost(const char* route, RequestHandlerJson handler) {
+  enableCORS(route);
+  AsyncCallbackJsonWebHandler* jsonHandler = new AsyncCallbackJsonWebHandler(
+    route,
+    [handler](AsyncWebServerRequest *request, JsonVariant &json) {
+      handler(request, json);
     }
   );
+  server->addHandler(jsonHandler);
 }
 
-void Networks::onPatch(const char *uri, RequestHandler handler)
-{
-  server->on(uri, HTTP_PATCH, [handler](AsyncWebServerRequest *req)
-    {
-      handler(req);
+void Networks::onPatch(const char* route, RequestHandlerJson handler) {
+  enableCORS(route);
+  AsyncCallbackJsonWebHandler* jsonHandler = new AsyncCallbackJsonWebHandler(
+    route,
+    [handler](AsyncWebServerRequest *request, JsonVariant &json) {
+      handler(request, json);
     }
   );
+  jsonHandler->setMethod(HTTP_PATCH);
+  server->addHandler(jsonHandler);
 }
+
 
 void Networks::onDelete(const char *uri, RequestHandler handler)
 {
-  server->on(uri, HTTP_DELETE, [handler](AsyncWebServerRequest *req)
+  enableCORS(uri);
+  server->on(uri, HTTP_DELETE, [handler](AsyncWebServerRequest *request)
     {
-      handler(req);
+      handler(request);
     }
   );
 }
 
-void Networks::serveStatic(const char *uri, const char *path, const char *cacheControl)
+
+void Networks::serveStatic(const char *uri, const char *path)
 {
-  server->serveStatic(uri, LittleFS, path, cacheControl);
+  enableCORS(uri);
+
+  AsyncStaticWebHandler* handler = new AsyncStaticWebHandler(uri, LittleFS, path, "no-cache");
+  handler->setDefaultFile("index.html");
+
+  server->addHandler(handler);
 }
+
 
 void Networks::initWebSocket()
 {
@@ -146,6 +184,11 @@ void Networks::initWebSocket()
 
 void Networks::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)
 {
+  (void)server;
+  (void)type;
+  (void)arg;
+  (void)len;
+
   switch (type)
   {
   case WS_EVT_CONNECT:
@@ -216,20 +259,27 @@ void Networks::onGotIP()
 
 String Networks::getNetworkInfo()
 {
-  String json = "{";
-  json += "\"Environment\":\"" + _env + "\",";
-  json += "\"ssid\":\"" + WiFi.SSID() + "\",";
-  json += "\"ip\":\"" + WiFi.localIP().toString() + "\",";
-  json += "\"gateway\":\"" + WiFi.gatewayIP().toString() + "\",";
-  json += "\"subnet\":\"" + WiFi.subnetMask().toString() + "\",";
-  json += "\"dns\":\"" + WiFi.dnsIP().toString() + "\",";
-  json += "\"http\":\"http://" + WiFi.localIP().toString() + ":" + webServerPort + "\",";
-  json += "\"ws\":\"ws://" + WiFi.localIP().toString() + ":" + webServerPort + webSocketRoot + "\",";
-  json += "\"setup\":{";
-  json += "\"ip\":\"" + String(_configIP[0]) + "." + String(_configIP[1]) + "." + String(_configIP[2]) + "." + String(_configIP[3]) + "\",";
-  json += "\"gateway\":\"" + String(_configGateway[0]) + "." + String(_configGateway[1]) + "." + String(_configGateway[2]) + "." + String(_configGateway[3]) + "\",";
-  json += "\"subnet\":\"" + String(_configSubnet[0]) + "." + String(_configSubnet[1]) + "." + String(_configSubnet[2]) + "." + String(_configSubnet[3]) + "\"";
-  json += "}";
-  json += "}";
-  return json;
+  JsonDocument doc;
+
+  doc["environment"] = _env;
+  doc["ssid"] = WiFi.SSID();
+  doc["ip"] = WiFi.localIP().toString();
+  doc["gateway"] = WiFi.gatewayIP().toString();
+  doc["subnet"] = WiFi.subnetMask().toString();
+  doc["dns"] = WiFi.dnsIP().toString();
+
+  String ipStr = WiFi.localIP().toString();
+  doc["http"] = "http://" + ipStr + ":" + String(webServerPort);
+  doc["ws"] = "ws://" + ipStr + ":" + String(webServerPort) + webSocketRoot;
+
+  JsonObject setup = doc["setup"].add<JsonObject>();
+  setup["ip"] = String(_configIP[0]) + "." + String(_configIP[1]) + "." + String(_configIP[2]) + "." + String(_configIP[3]);
+  setup["gateway"] = String(_configGateway[0]) + "." + String(_configGateway[1]) + "." + String(_configGateway[2]) + "." + String(_configGateway[3]);
+  setup["subnet"] = String(_configSubnet[0]) + "." + String(_configSubnet[1]) + "." + String(_configSubnet[2]) + "." + String(_configSubnet[3]);
+
+  String output;
+  serializeJson(doc, output);
+  return output;
 }
+
+

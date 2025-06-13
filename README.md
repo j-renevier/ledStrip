@@ -52,11 +52,35 @@ L’interface permet :
 - **Application Mobile** :
   - Développement d’une application mobile dédiée.
 
-### En cours 
+#### En cours 
 - **Refacto de l'architecture :**
   - POO
   - Implémentation de route supplémentaires 
   - Implémentation de Websockets
+
+- **Refacto de l'interface**
+  - Preact
+
+#### A Faire
+        
+- [Interface] Factoriser les composants
+- [Interface] Creer des coulaur dans le dashboard
+- [Arduino] Persister les couleurs, et les configuration : luminosité, vitesse, ordre ... 
+
+- [Arduino] Nouveau schéma static (palette)
+- [Arduino] Nouveau schéma dynamique (back-foward, rainbow, dynamique palette)
+
+- [Arduino] Prendre en compte le blur
+- [Arduino] Prendre en compte l'offset
+- [Arduino] Prendre en compte le spread
+
+- [API & Interface] Modification de la blur, offset, spread, speed, brightness
+- [API] Envoyer des valeurs pertinante a travers le websocket (state, order...)
+- [Interface] Mettre a jours automatiquement en récuperant les valeurs via le websocket
+
+- [Arduino & API & Interface] Edition d'une couleurs
+- [Arduino & API & Interface] Suppression d'une couleurs
+- [Mobile] App mobile
 
 
 ## Hardware
@@ -123,6 +147,10 @@ https://arduino.esp8266.com/stable/package_esp8266com_index.json
 
 4. Installer le gestionnaire corrspondant à l'ESP8266
 
+Nom du gestionanire : esp8266
+Développé par : ESP8266 Community
+Verison : 3.1.2 (lts 25/05/2025)
+
 ![Installer ESP8266](./resource/image/installEsp8266.png)
 
 5. Sélectionner la carte 
@@ -132,9 +160,40 @@ https://arduino.esp8266.com/stable/package_esp8266com_index.json
 
 ###  Installation de LittleFS Filesystem Uploader
 
+Nom du plugin : arduino-littlefs-upload
+Développé par : Earle F. Philhower
+Verison : 1.5.4 (lts 11/06/2025)
+
 [Install ESP8266 NodeMCU LittleFS Filesystem Uploader in Arduino IDE](https://randomnerdtutorials.com/install-esp8266-nodemcu-littlefs-arduino/#installing)
 
-[Arduino littlefs upload](https://github.com/earlephilhower/arduino-littlefs-upload)
+[Arduino IDE 2: Install ESP8266 NodeMCU LittleFS Uploader (Upload Files to the Filesystem)](https://randomnerdtutorials.com/arduino-ide-2-install-esp8266-littlefs/)
+
+1. Télécharger le paquet au format .vsix dans le repository Github
+
+[Github - Arduino littlefs upload](https://github.com/earlephilhower/arduino-littlefs-upload)
+
+[Github - Arduino littlefs upload - Release 1.5.4](https://github.com/earlephilhower/arduino-littlefs-upload/releases)
+
+![Dowload plugin](./resource/image/downloadPlugin.png)
+
+2. Créer un dossier `plugin` si il n'existe pas déjà dans `C:\Users\<username>\.arduinoIDE\`
+
+![create plugin folder](./resource/image/createPluginFolder.png)
+
+3. Déplacer le paquet télécharger précedement dans `C:\Users\<username>\.arduinoIDE\plugins`
+
+![Move package](./resource/image/addUploaderInPluginFolder.png)
+
+4) Redémarer l'IDE Arduino et verifier si le plugin c'est bien installer nouvelle instruction dans le panneau de commande ([Ctrl] + [Shift] + [P]), chercher `Upload LittleFS`.
+
+![plugin successfully installed](./resource/image/uploadFiles.png)
+
+
+### Utilisation de littlFS 
+
+1. Au meme niveau que le fichier .ino ajouter un dossier data contenant l'ensmble des données 
+2. Configurer la memoire flash
+3. Fermer le moniteur serie
 
 [ESP8266 Community Forum](https://github.com/esp8266)
 
@@ -143,7 +202,24 @@ https://arduino.esp8266.com/stable/package_esp8266com_index.json
 
 ### Librairie
 
+#include <vector>
+#include <optional>
+#include <functional>
+
+#include <Arduino.h>
+#include <FastLED.h>
+#include <LittleFS.h>
+#include <AsyncJson.h>
+#include <ESP8266WiFi.h>
+#include <ArduinoJson.h>
+#include <ESPAsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+
 #### FastLED
+
+Nom de la bibliotheque : ArduinoJson
+Développé par : Benoit Blanchon 
+Verison : 7.4.1 (lts 25/05/2025)
 
 [Github FastLED](https://github.com/FastLED/FastLED)
 
@@ -153,29 +229,115 @@ https://arduino.esp8266.com/stable/package_esp8266com_index.json
 
 #### LittleFS
 
+https://arduino-esp8266.readthedocs.io/en/latest/filesystem.html
+
+
+Nom de la bibliotheque : ESPAsyncWebServer
+Développé par : Lacamera
+Verison : 3.1.0 (lts 25/05/2025)
+
 #### ESP8266WiFi
+
+[ESP8266WiFi](https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/readme.html)
+
+Nom de la bibliotheque : 
+Développé par : 
+Verison : 
 
 #### ESPAsyncTCP
 
+Nom de la bibliotheque : ESPAsyncTCP
+Développé par : Dvarrel
+Verison : 1.1.4 (lts 25/05/2025)
+
 #### ESPAsyncWebServer
 
-## Configuration 
+Nom de la bibliotheque : ESPAsyncWebServer
+Développé par : Lacamera
+Verison : 3.1.0 (lts 25/05/2025)
 
-### Paramètres LED
-- **Nombre de LED** : `NUM_LEDS = 185`
-- **Broche de contrôle des LED** : `LED_PIN = D2 (GPIO4)`
+#### ArduinoJson
 
-### Paramètres Réseau WiFi
-- **Nom du réseau WiFi (SSID)** : `SFR_2012`
-- **Mot de passe** : `ChangeMe`
+Nom de la bibliotheque : ArduinoJson
+Développé par : Benoit Blanchon 
+Verison : 7.4.1 (lts 25/05/2025)
 
-### Configuration Réseau
-- **Adresse IP statique** : `IPAddress staticIP(192, 168, 1, 201)`
-- **Passerelle** : `IPAddress gateway(192, 168, 1, 1)`
-- **Masque de sous-réseau** : `IPAddress subnet(255, 255, 255, 0)`
 
-### Serveur Web
-- **Port du serveur Web** : `AsyncWebServer server(80)`
+## Configuration
+
+### V1
+
+  #### Paramètres LED
+  - **Nombre de LED** : `NUM_LEDS = 185`
+  - **Broche de contrôle des LED** : `LED_PIN = D2 (GPIO4)`
+
+  #### Paramètres Réseau WiFi
+  - **Nom du réseau WiFi (SSID)** : `SFR_2012`
+  - **Mot de passe** : `ChangeMe`
+
+  #### Configuration Réseau
+  - **Adresse IP statique** : `IPAddress staticIP(192, 168, 1, 201)`
+  - **Passerelle** : `IPAddress gateway(192, 168, 1, 1)`
+  - **Masque de sous-réseau** : `IPAddress subnet(255, 255, 255, 0)`
+
+  #### Serveur Web
+  - **Port du serveur Web** : `AsyncWebServer server(80)`
+
+### V2 
+
+  #### Paramètres LED
+  - **Broche de contrôle des LED** : `D2 (GPIO4)`
+  
+  #### Serveur Web
+  - **HTTP** : http://<IP>:80
+  - **Websocket** : ws://<IP>:80/ws
+
+  #### Fichier de configuration
+
+
+  - **Sur la base du fichier de configuration en exemple `config.exemple.h` configurer sont environnement**
+
+  ```cpp
+  // ./configs/config.exemple.h
+
+  #ifndef CONFIG_H
+  #define CONFIG_H
+
+  const char *ENVIRONMENT = "exemple";
+  const char *WIFI_SSID = "Free";
+  const char *WIFI_PASSWORD = "changeme";
+
+  uint8_t IP[4] = {192, 168, 0, 2};
+  uint8_t GATEWAY[4] = {192, 168, 0, 1};
+  uint8_t SUBNET[4] = {255, 255, 255, 0};
+
+  const int NUM_LEDS = 30;
+  const float SPEED = 1.0f;
+
+  #endif
+  ```
+  1. Creation du  fichier `./configs/config.<mon_env>.h`
+  2. Modifier les valeurs 
+
+  ```cpp
+  // ./configs/config.<mon_env>.h
+  
+  #ifndef CONFIG_H
+  #define CONFIG_H
+
+  const char *ENVIRONMENT = <mon_env>;
+  ...
+
+  #endif
+  ```
+
+  - **Importer le fichier dans le fichier : <mon_projet>.ino**
+  
+  ```arduino
+  #include "./configs/config.<mon_env>.h"
+  ```
+
+
 
 
 ## Structure
@@ -313,6 +475,39 @@ Un point d'accès (AP) est utile si aucun réseau WiFi local n'est disponible.
      ```
 
 
+### Verifier en live sur mobile 
+
+```sh
+adb kill-server
+```
+
+```sh
+adb start-server                     
+* daemon not running; starting now at tcp:5037
+* daemon started successfully
+```
+
+```sh
+adb devices                      
+List of devices attached
+T5CX707569MT     device
+```
+
+```sh 
+adb pair 192.168.1.145:39443
+Enter pairing code: 186790
+Successfully paired to 192.168.1.102:145 [guid=adb-R5CX70018MT-dawdsU]
+```
+
+```sh 
+adb connect 192.168.1.145:44955
+connected to 192.168.1.145:44955
+```
+
+```sh 
+adb reverse tcp:5173 tcp:5173
+```
+
 ### Routes V1
 
 **[DOC API](./swagger.yml/)**
@@ -372,3 +567,4 @@ Un point d'accès (AP) est utile si aucun réseau WiFi local n'est disponible.
 - Configurer la couleur 3
 
   GET host/slider5?value=(int color3)
+

@@ -2,6 +2,8 @@
 #define MANAGER_H
 
 #include <Arduino.h>
+#include <AsyncJson.h>
+#include <ArduinoJson.h>
 
 #include "./lights.h"
 #include "./networks.h"
@@ -14,13 +16,13 @@ protected:
   Networks &_networks;
   Lights &_lights;
   LightsPattern _lightsPattern;
-
+  String _version;
 
   void initWebSocket();
   void initHTTP();
 
 public:
-  Manager(HardwareSerial &_serial, Networks &networks, Lights &lights);
+  Manager(HardwareSerial &_serial, Networks &networks, Lights &lights, String version);
   void begin();
 };
 

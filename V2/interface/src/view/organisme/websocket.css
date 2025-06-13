@@ -1,0 +1,58 @@
+.ws-info{
+  display: grid;
+  gap: 0.5rem 1rem;
+}
+
+.ws-info button{
+  width: auto;
+  justify-self: center;
+}
+
+
+@media screen and (min-width: 300px) {
+  .ws-info{
+    grid-template-columns: minmax(min-content, auto)  1fr;
+  }
+
+  .ws-info button{
+    justify-self: left;
+  }
+}
+
+
+.ws-container{
+  display: flex;
+  gap: 1rem;
+}
+
+.ws-message {
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+}
+
+.ws-response {
+  max-height: 20vh;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.ws-dialog {
+  display: flex;
+  flex-direction: row;
+  gap: 0rem;
+}
+
+.ws-dialog .level{
+  display: inline-block;
+  font-size: 0.7rem;
+  min-width: 15.36px;
+}
+
+.ws-dialog .neutral,
+.ws-dialog .info, 
+.ws-dialog .success, 
+.ws-dialog .warning, 
+.ws-dialog .error{
+  font-weight: 600;
+}
