@@ -474,6 +474,62 @@ Un point d'accès (AP) est utile si aucun réseau WiFi local n'est disponible.
      }
      ```
 
+### Générer un apk
+
+#### Installer bubblewrap
+
+```
+npm install -g @bubblewrap/cli        
+```
+
+```
+bubblewrap init --manifest https://j-renevier.github.io/ledStrip/manifest.json
+
+Web app details (1/5)
+
+? Domain: j-renevier.github.io
+? URL path: /
+
+Android app details (2/5)
+
+? Application name: LED Strip Controller
+? Short name: LEDStrip
+? Application ID: io.github.j_renevier.twa
+? Starting version code for the new app version: 1
+? Display mode: standalone
+? Orientation: portrait
+? Status bar color: #2563F4
+
+Launcher icons and splash screen (3/5)
+
+? Splash screen color: #FFFFFF
+? Icon URL: https://j-renevier.github.io/ledStrip/pwa-512x512.png
+? Maskable icon URL: https://j-renevier.github.io/ledStrip/pwa-512x512.png
+
+Optional Features (4/5)
+
+? Monochrome icon URL: https://j-renevier.github.io/ledStrip/pwa-512x512.png
+? Include support for Play Billing (this relies on alpha dependencies)? No
+? Request geolocation permission? No
+
+Signing key information (5/5)
+
+? Key store location: C:\Users\rapha\project\arduino\ledStrip\V2\interface\android.keystore
+? Key name: android
+
+An existing key store could not be found at "C:\Users\rapha\project\arduino\ledStrip\V2\interface\android.keystore".
+
+? Do you want to create one now? Yes
+? First and Last names (eg: John Doe): Joachim Renevier
+? Organizational Unit (eg: Engineering Dept): kepler11
+? Organization (eg: Company Name): kepler11
+? Country (2 letter code): fr
+? Password for the Key Store: 123456
+? Password for the Key: 123456
+keytool Signing Key created successfully
+
+Project generated successfully. Build it by running bubblewrap build
+```
 
 ### Verifier en live sur mobile 
 
@@ -567,4 +623,6 @@ adb reverse tcp:5173 tcp:5173
 - Configurer la couleur 3
 
   GET host/slider5?value=(int color3)
+
+
 

@@ -28,3 +28,16 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+*/android/
+/V2/interface/app/
+/V2/interface/build
+/V2/interface/dev-dist
+*.gradle/
+*gradle/
+*.idea/
+*.iml
+*.apk
+*.apks
+*output.json
