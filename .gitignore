@@ -41,3 +41,5 @@ dist-ssr
 *.apk
 *.apks
 *output.json
+
+*pwa

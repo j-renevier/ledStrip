@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "build:arduino": "cross-env ARDUINO_BUILD=true vite build"
+    "build:arduino": "cross-env ARDUINO_BUILD=true vite build",
+    "build:githubpage": "cross-env VITE_BASE_PATH=/ledStrip/ vite build"
   },
   "dependencies": {
     "preact": "^10.26.5",
