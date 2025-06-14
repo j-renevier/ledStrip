@@ -17,7 +17,10 @@ const App = () => {
   useEffect(()=>{console.log('app')}, [])
 
   return(
-    <Dashboard path="" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
+    <Router>
+      <Dashboard path="/" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
+
+    </Router>
     // <div>
     //   <Router>
     //     <Home path="/home" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
