@@ -1,10 +1,14 @@
-import path from 'path'  
+import path from 'path'
 import { defineConfig } from 'vite'
 import preact from '@preact/preset-vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
+// Mode d'environnement
 const isArduinoBuild = process.env.ARDUINO_BUILD === 'true'
 const base = process.env.VITE_BASE_PATH || '/'
+const outDir = isArduinoBuild
+  ? path.resolve(__dirname, '../arduino/data')
+  : 'dist'
 
 export default defineConfig({
   base,
@@ -74,12 +78,7 @@ export default defineConfig({
     port: 5173
   },
   build: {
-    outDir: isArduinoBuild
-      ? path.resolve(__dirname, '../arduino/data')
-      : 'dist',
+    outDir,
     emptyOutDir: true
   }
 })
-
-
-
