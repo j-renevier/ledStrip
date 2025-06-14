@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 
 import useWebSocket from "../hooks/useWebSocket";
 
-import './webSocket.css'
+import './websocket.css'
 
 const Websocket = ({host, port, root}) => {
   const [isLoading, setIsLoading] = useState(false);
