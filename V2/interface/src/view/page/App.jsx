@@ -19,7 +19,8 @@ const App = () => {
   return(
     <div>
       <Router>
-        <Dashboard path="" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
+        {/* <Dashboard path="" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/> */}
+        <Test path=""/>
         {/* <Home path="/home" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/> */}
       </Router>
     </div>
@@ -27,3 +28,8 @@ const App = () => {
 }
 
 export default App;
+
+
+const Test = () => {
+  return (<h1>TEST</h1>)
+}
