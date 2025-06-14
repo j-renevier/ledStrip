@@ -20,14 +20,12 @@ const App = () => {
 
   const basePath = import.meta.env.VITE_BASE_PATH || '/'
 
-
   useEffect(()=>{console.log('app')}, [])
 
   return(
     <Router>
-      <Dashboard path={basePath + "/"}  protocole={protocole} host={host} setHost={setHost} port={port} root={rootApi}/>
-      <Home path={basePath + "/home"}  protocole={protocole} host={host} setHost={setHost} port={port} root={rootApi}/>
-
+      <Dashboard path={basePath + ""}  protocole={protocole} host={host} setHost={setHost} port={port} root={rootApi}/>
+      <Home path={basePath + "home"}  protocole={protocole} host={host} setHost={setHost} port={port} root={rootApi}/>
     </Router>
   )
 }
