@@ -63,12 +63,16 @@ const Dashboard = ({protocole, host, setHost, port ,root}) => {
     setOrder(lights.data.order)
   }, [lights.data.order]);
 
+  const basePath = import.meta.env.VITE_BASE_PATH || '/';
+
   const goToMain = () => {
-    if (window.location.pathname === "/") {
-      return '/home'
-    } 
-    return '/'
-  }
+    const currentPath = window.location.pathname.replace(basePath, '/') || '/';
+
+    if (currentPath === '/') {
+      return basePath + 'home';
+    }
+    return basePath;
+  };
 
   const handlePlayPattern = async (event, request, pattern, order) =>{
     event?.preventDefault()

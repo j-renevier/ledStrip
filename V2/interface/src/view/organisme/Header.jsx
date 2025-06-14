@@ -4,12 +4,16 @@ import SelectNetworks from "./SelectNetworks"
 import LightbulbIcon from "../atome/LightbulbIcon"
 
 const Header = ({ host, setHost, protocole, port, root, knowHosts}) => {
+  const basePath = import.meta.env.VITE_BASE_PATH || '/';
+
   const goToMain = () => {
-    if (window.location.pathname === "/") {
-      return '/home'
-    } 
-    return '/'
-  }
+    const currentPath = window.location.pathname.replace(basePath, '/') || '/';
+
+    if (currentPath === '/') {
+      return basePath + 'home';
+    }
+    return basePath;
+  };
 
   return (
     <header>
