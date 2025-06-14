@@ -1,7 +1,7 @@
 import { Link } from "preact-router"
 
-import LightbulbIcon from "../atome/LightbulbIcon"
 import SelectNetworks from "./SelectNetworks"
+import LightbulbIcon from "../atome/LightbulbIcon"
 
 const Header = ({ host, setHost, protocole, port, root, knowHosts}) => {
   const goToMain = () => {

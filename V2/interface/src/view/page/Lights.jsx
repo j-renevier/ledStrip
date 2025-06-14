@@ -6,7 +6,6 @@ import { getLights, getLightsState, toggleLightsState } from "../../usecase/ligh
 
 import './lights.css'
 
-
 const Lights = ({lights, setLights, request}) => {
 
   useEffect(() => {

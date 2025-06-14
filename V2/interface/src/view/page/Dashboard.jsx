@@ -1,21 +1,19 @@
+import { Link } from 'preact-router';
 import { useCallback, useEffect, useRef, useState } from 'preact/hooks'
 
 import { useApi } from '../hooks/useApi';
 import { getColors} from '../../usecase/colors';
-import { getLights, toggleLightsState } from '../../usecase/lights';
 import { hsv2hslString } from '../../usecase/common';
+import { getLights, toggleLightsState } from '../../usecase/lights';
 import { changePatterns, getPatterns } from '../../usecase/patterns';
 
+import PlayIcon from '../atome/PlayIcon';
+import HomeIcon from '../atome/HomeIcon';
+import AngleLeftIcon from '../atome/AngleLeftIcon';
+import LightbulbIcon from '../atome/LightbulbIcon';
+import ColorPaletteIcon from '../atome/ColorPaletteIcon';
 
 import './dashboard.css'
-import PlayIcon from '../atome/PlayIcon';
-import InfoIcon from '../atome/InfoIcon';
-import HomeIcon from '../atome/HomeIcon';
-import ColorPaletteIcon from '../atome/ColorPaletteIcon';
-import AngleLeftIcon from '../atome/AngleLeftIcon';
-import AngleRightIcon from '../atome/AngleRightIcon';
-import { Link } from 'preact-router';
-import LightbulbIcon from '../atome/LightbulbIcon';
 
 const colorInit = {
   data : {

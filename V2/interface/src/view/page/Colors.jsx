@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'preact/hooks'
 
 import { createColors, getColors } from '../../usecase/colors';
 
-import './colors.css'
-import PenIcon from '../atome/penIcon';
+import PenIcon from '../atome/PenIcon';
 import TrashIcon from '../atome/TrashIcon';
 import ToggleSwitch from '../molecule/ToggleSwitch';
 import { hexadecimalString2Rgb, hsv2hslString, hsv2Rgb, rgb2HexadecimalString, rgb2Hsv } from '../../usecase/common';
+import './colors.css'
 
 const addColorInitValue = {hsv: {h : 0, s: 0, v: 0}, isFavorite: false}
 

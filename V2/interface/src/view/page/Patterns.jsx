@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 
-import {Info} from "../molecule/Info";
 import { getPatterns, changePatterns } from "../../usecase/patterns";
 
-import './patterns.css'
-import { hsv2hslString } from "../../usecase/common";
 import PlayIcon from "../atome/PlayIcon";
 import InfoIcon from "../atome/InfoIcon";
+import { hsv2hslString } from "../../usecase/common";
 
+import './patterns.css'
 
 const Patterns = ({patterns, setPatterns, request, lights, setLights, colors}) => {
   const [order, setOrder] = useState([])
