@@ -31,6 +31,8 @@ jobs:
     - name: Build project for GitHub Pages
       run: npm run build:githubpage
       working-directory: V2/interface
+      env:
+        VITE_BASE_PATH: /ledStrip/
     
     - name: Upload artifact for deployment
       uses: actions/upload-pages-artifact@v3
