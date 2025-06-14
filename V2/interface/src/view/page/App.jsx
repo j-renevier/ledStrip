@@ -18,7 +18,7 @@ const App = () => {
 
   return(
     <Router>
-      <Dashboard path="/" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
+      <Dashboard  protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
 
     </Router>
     // <div>
