@@ -29,17 +29,26 @@ dist-ssr
 *.sln
 *.sw?
 
+*.key
+*.crt
 
-*/android/
-/V2/interface/app/
-/V2/interface/build
-/V2/interface/dev-dist
-*.gradle/
-*gradle/
-*.idea/
-*.iml
-*.apk
-*.apks
-*output.json
+# Ignorer tout dans le dossier pwa
+V2/interface/pwa/**
 
-*pwa
+# Sauf les fichiers que l'on souhaite suivre explicitement
+!V2/interface/pwa/app/build.gradle
+!V2/interface/pwa/app/src/main/res/values/strings.xml
+!V2/interface/pwa/app/src/main/AndroidManifest.xml
+!V2/interface/pwa/app/src/main/res/xml/network_security_config.xml
+!V2/interface/pwa/app-release-signed.apk
+
+# Réintégrer les dossiers parents nécessaires (car un dossier ignoré empêche Git de voir ses enfants)
+!V2/
+!V2/interface/
+!V2/interface/pwa/
+!V2/interface/pwa/app/
+!V2/interface/pwa/app/src/
+!V2/interface/pwa/app/src/main/
+!V2/interface/pwa/app/src/main/res/
+!V2/interface/pwa/app/src/main/res/values/
+!V2/interface/pwa/app/src/main/res/xml/

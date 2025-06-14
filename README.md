@@ -625,28 +625,39 @@ adb reverse tcp:5173 tcp:5173
   GET host/slider5?value=(int color3)
 
 
-Passer de HTTPS en  HTTP PWA
 
-V2\interface\app\build.gradle
-        def launchUrl = "http://" + twaManifest.hostName + twaManifest.launchUrl
+### Forcer la constrution de l'APK en HTTP
 
+#### Modifier manuellement les fichier suivant
 
-V2\interface\app\src\main\res\values\strings.xml
-            \"site\": \"http://192.168.1.189\"
+Dans le repertoire contenant le code source pour build l'apk
 
+```
+// <path_2_pwa_builder>\app\build.gradle
 
-V2\interface\app\build\generated\res\resValues\release\values\gradleResValues.xml
-                <string name="launchUrl" translatable="false">http://192.168.1.189/</string>
+hostName: '192.168.1.189', 
+    def launchUrl = "http://" + twaManifest.hostName + twaManifest.launchUrl
+    launchUrl: '/'
+```
 
+```xml
+<!-- <path_2_pwa_builder>\app\src\main\res\values\strings.xml -->
 
-V2\interface\app\src\main\AndroidManifest.xml
-  android:usesCleartextTraffic="true"
-  android:networkSecurityConfig="@xml/network_security_config"
+\"site\": \"http://192.168.1.189\"
+```
 
-V2\interface\app\src\main\res\xml\network_security_config.xml
-  <?xml version="1.0" encoding="utf-8"?>
+```xml
+<!-- <path_2_pwa_builder>\app\src\main\AndroidManifest.xml -->
+android:usesCleartextTraffic="true"
+android:networkSecurityConfig="@xml/network_security_config"
+```
+
+```xml
+<!-- <path_2_pwa_builder>\app\src\main\res\xml\network_security_config.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
   <domain-config cleartextTrafficPermitted="true">
     <domain includeSubdomains="true">192.168.1.189</domain>
   </domain-config>
 </network-security-config>
+```
