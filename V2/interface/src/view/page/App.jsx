@@ -20,7 +20,7 @@ const App = () => {
     <div>
       <Router>
         {/* <Dashboard path="" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/> */}
-        <Test path=""/>
+        <Test/>
         {/* <Home path="/home" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/> */}
       </Router>
     </div>
