@@ -17,19 +17,14 @@ const App = () => {
   useEffect(()=>{console.log('app')}, [])
 
   return(
-    <div>
-      <Router>
-        {/* <Dashboard path="" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/> */}
-        <Test/>
-        {/* <Home path="/home" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/> */}
-      </Router>
-    </div>
+    <Dashboard path="" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
+    // <div>
+    //   <Router>
+    //     <Home path="/home" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
+    //   </Router>
+    // </div>
   )
 }
 
 export default App;
 
-
-const Test = () => {
-  return (<h1>TEST</h1>)
-}
