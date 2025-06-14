@@ -34,17 +34,17 @@ export default defineConfig({
         scope: '/',
         icons: [
           {
-            src: '/pwa-192x192.png',
+            src: '${base}pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: '/dark-512x512.png',
+            src: '${base}pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: '/dark-512x512.png',
+            src: '${base}pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'
