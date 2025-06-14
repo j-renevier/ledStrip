@@ -1,6 +1,6 @@
 import { render } from 'preact'
 
-import App from './view/page/app'
+import App from './view/page/App'
 
 import './view/page/base.css'
 
