@@ -1,0 +1,28 @@
+{
+  "name": "Microcontroleur - Ruban de led connecté",
+  "short_name": "wifi lights",
+  "description": "Contrôle d'un bande LED via ESP8266",
+  "theme_color": "#2563f4",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
