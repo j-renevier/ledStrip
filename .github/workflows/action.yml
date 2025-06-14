@@ -1,9 +1,9 @@
 name: Deploy on GitHub Pages
 on:
   push:
-    branches: [ "*" ]
+    branches: [ "feature/basics_api" ]
   pull_request:
-    branches: [ "*" ]
+    branches: [ "feature/basics_api" ]
     
 permissions:
   contents: write
