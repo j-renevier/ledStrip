@@ -2,6 +2,7 @@ import { render } from 'preact'
 
 import App from './view/page/App'
 
-import './view/page/base.css'
 
+
+console.log("Main");
 render(<App />, document.getElementById('app'))

@@ -4,7 +4,9 @@ import { useState } from 'preact/hooks';
 import Home from './Home';
 import Dashboard from './Dashboard';
 
+import './base.css'
 import './app.css'
+import { useEffect } from 'react';
 
 const App = () => {
 
@@ -12,6 +14,8 @@ const App = () => {
   const protocole = 'http';
   const port = '80';
   const root = '/api/';
+
+  useEffect(()=>{console.log("App");},[])
 
   return(
     <div id="app">
