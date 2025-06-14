@@ -16,7 +16,7 @@ const App = () => {
 
   return(
     <div>
-      <Router base="/ledStrip/">
+      <Router base={'/ledStrip/'}>
         <Dashboard path="/" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
         <Home path="/home" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
       </Router>
