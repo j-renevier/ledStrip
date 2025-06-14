@@ -1,7 +1,6 @@
 import path from 'path'
 import { defineConfig } from 'vite'
 import preact from '@preact/preset-vite'
-import { VitePWA } from 'vite-plugin-pwa'
 
 // Mode d'environnement
 const isArduinoBuild = process.env.ARDUINO_BUILD === 'true'
@@ -14,51 +13,6 @@ export default defineConfig({
   base,
   plugins: [
     preact(),
-    VitePWA({
-      registerType: 'autoUpdate',
-      includeAssets: [
-        'favicon.svg',
-        'favicon.ico',
-        'robots.txt',
-        'apple-touch-icon.png',
-        'pwa-192x192.png',
-        'pwa-512x512.png'
-      ],
-      devOptions: {
-        enabled: true
-      },
-      manifest: {
-        name: 'LED Strip Controller',
-        short_name: 'LEDStrip',
-        description: 'Contrôle de bande LED via ESP8266',
-        theme_color: '#2563f4',
-        background_color: '#ffffff',
-        display: 'standalone',
-        start_url: '/',
-        scope: '/',
-        icons: [
-          {
-            src: `${base}pwa-192x192.png`,
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: `${base}dark-512x512.png`,
-            sizes: '512x512',
-            type: 'image/png'
-          },
-          {
-            src: `${base}dark-512x512.png`,
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable'
-          }
-        ]
-      },
-      workbox: {
-        cleanupOutdatedCaches: true
-      }
-    })
   ],
   server: {
     host: '0.0.0.0',
