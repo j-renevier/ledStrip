@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import Router from 'preact-router';
-import Home from './home';
+import Home from './Home';
 import { useState } from 'preact/hooks';
 import Dashboard from './Dashboard';
 
