@@ -18,8 +18,8 @@ const App = () => {
 
   return(
     <Router>
-      <Dashboard path="/ledStrip/" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
-      <Home path="/ledStrip/home" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
+      <Dashboard path="ledStrip/" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
+      <Home path="ledStrip/home" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
 
     </Router>
   )
