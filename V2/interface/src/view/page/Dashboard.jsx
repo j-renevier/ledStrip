@@ -56,6 +56,7 @@ const Dashboard = ({protocole, host, setHost, port ,root}) => {
   const { request } = useApi(`${protocole}://${host}:${port}${root}`);
   
   useEffect(() => {
+    console.log('dashboard')
     fetchLightsNColorsNPatterns(request, lights, setLights, colors, setColors, patterns, setPatterns);
   }, []);
   
