@@ -25,7 +25,7 @@ const App = () => {
   return(
     <Router>
       <Dashboard path={basePath + ""}  protocole={protocole} host={host} setHost={setHost} port={port} root={rootApi}/>
-      <Home path={basePath + "home"}  protocole={protocole} host={host} setHost={setHost} port={port} root={rootApi}/>
+      <Home path={basePath + "home/"}  protocole={protocole} host={host} setHost={setHost} port={port} root={rootApi}/>
     </Router>
   )
 }
