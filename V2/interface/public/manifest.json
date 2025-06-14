@@ -1,11 +1,10 @@
 {
-  "name": "LED Strip Controller",
-  "short_name": "LEDStrip",
-  "description": "Contrôle de bande LED via ESP8266",
+  "name": "Microcontroleur - Ruban de led connecté",
+  "short_name": "wifi lights",
+  "description": "Contrôle d'un bande LED via ESP8266",
   "theme_color": "#2563f4",
   "background_color": "#ffffff",
   "display": "standalone",
-  "orientation": "portrait",
   "start_url": "/",
   "scope": "/",
   "icons": [
