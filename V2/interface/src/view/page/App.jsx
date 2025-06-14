@@ -17,10 +17,9 @@ const App = () => {
 
   useEffect(()=>{console.log('APP')}, [])
 
-
   return(
     <div>
-      <Router>
+      <Router base={import.meta.env.VITE_BASE_PATH ?? ''}>
         <Dashboard path="/" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
         <Home path="/home" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
       </Router>
