@@ -67,8 +67,6 @@ const Home = ({protocole, host, setHost, port , root}) => {
   const { request } = useApi(`${protocole}://${host}:${port}${root}`);
 
   useEffect(() => {
-        console.log('home')
-
     fetchLightsNColorsNPatterns(request, lights, setLights, colors, setColors, patterns, setPatterns);
   }, []);
   

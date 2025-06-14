@@ -5,7 +5,8 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // Mode d'environnement
 const isArduinoBuild = process.env.ARDUINO_BUILD === 'true'
-const base = process.env.VITE_BASE_PATH || '/'
+const base = process.env.VITE_ROOT_PATH || '/'
+
 const outDir = isArduinoBuild
   ? path.resolve(__dirname, '../arduino/data')
   : 'dist'
