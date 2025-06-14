@@ -6,7 +6,7 @@ import Dashboard from './Dashboard';
 
 import './base.css'
 import './app.css'
-import { useEffect } from 'react';
+import { useEffect } from 'preact';
 
 const App = () => {
 
@@ -19,7 +19,7 @@ const App = () => {
 
   return(
     <div>
-      <Router base={import.meta.env.VITE_BASE_PATH ?? ''}>
+      <Router base={'/ledStrip/'}>
         <Dashboard path="/" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
         <Home path="/home" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
       </Router>
