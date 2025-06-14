@@ -17,6 +17,9 @@ L’interface permet :
 
 3. La sélection de modes statiques ou dynamiques pour des effets lumineux variés (par exemple, mode arc-en-ciel, une ou plusieurs couleurs fixes, etc.).
 
+Application android : [https://github.com/j-renevier/ledStrip/blob/feature/basics_api/V2/interface/pwa/app-release-signed.apk](Lien vers l'apk)
+Page github : [https://j-renevier.github.io/ledStrip/](Site heberger sur github page)
+Repository github : [https://github.com/j-renevier/ledStrip](Repo github)
 
 ## Release
 

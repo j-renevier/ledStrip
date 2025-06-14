@@ -142,6 +142,9 @@ const Home = ({protocole, host, setHost, port , root}) => {
       <article>
         <h2>Avertissement</h2>
         <ul>
+          <li>Application android : <a href="https://github.com/j-renevier/ledStrip/blob/feature/basics_api/V2/interface/pwa/app-release-signed.apk">Lien vers l'apk</a></li>
+          <li>Page github : <a href="https://j-renevier.github.io/ledStrip/">Site heberger sur github page</a></li>
+          <li>Repository github : <a href="https://github.com/j-renevier/ledStrip">Repo github</a></li>
           <li style={{display: 'flex', gap:'0.5rem', fontSize: '0.7rem'}}>
             <div>
               <p>
