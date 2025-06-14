@@ -6,6 +6,7 @@ import Dashboard from './Dashboard';
 
 import './base.css'
 import './app.css'
+import { useEffect } from 'react';
 
 const App = () => {
 
@@ -14,14 +15,16 @@ const App = () => {
   const port = '80';
   const root = '/api/';
 
+  useEffect(()=>{console.log('APP')}, [])
+
 
   return(
-    <>
+    <div>
       <Router>
         <Dashboard path="/" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
         <Home path="/home" protocole={protocole} host={host} setHost={setHost} port={port} root={root}/>
       </Router>
-    </>
+    </div>
   )
 }
 

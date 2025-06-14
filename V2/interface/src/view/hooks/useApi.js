@@ -5,11 +5,13 @@ export const useApi = (baseUrl = '') => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  
+
   const request = useCallback(async (endpoint, method = 'GET', body = null, headers = {}) => {
     setLoading(true);
     setError(null);
     setData(null);
+
+    console.log('API')
 
     try {
       const response = await fetch(baseUrl + endpoint, {
