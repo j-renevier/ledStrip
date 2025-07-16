@@ -1,0 +1,9 @@
+.chose-network{
+  display: flex;
+}
+
+.chose-network div{
+  display: block;
+  width: 100%;
+  max-width: 300px;
+}

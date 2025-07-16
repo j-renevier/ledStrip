@@ -1,0 +1,12 @@
+.logo-wrapper:focus {
+  border-radius: 1.05rem
+}
+
+.logo {
+  padding: 0.25rem 0.25rem;
+}
+
+.logo svg {
+  height: 2rem;
+  width: 2rem;
+}

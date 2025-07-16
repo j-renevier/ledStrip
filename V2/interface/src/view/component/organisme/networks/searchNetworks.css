@@ -1,0 +1,41 @@
+.search-networks .action-wrapper{
+  margin: 0.5rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.5rem ;
+  flex-wrap: wrap;
+}
+
+.search-networks .action-wrapper .action.input{
+  max-width: 250px;
+}
+
+
+
+.search-networks .action-wrapper button{
+  max-width: 150px;
+  min-height: 35px;
+}
+
+.search-networks .action-wrapper .action {
+  flex: 0 0 100%;
+}
+
+
+@media (min-width: 400px) {
+  .search-networks .action-wrapper{
+    justify-content: left;
+  }
+  .search-networks .action-wrapper .action {
+    flex: 0 0 calc(40%);
+  }
+}
+
+/* Grands écrans (desktop) : 4 par ligne */
+@media (min-width: 700px) {
+
+  .search-networks .action-wrapper .action {
+    flex: 0 0 calc(20%);
+  }
+}

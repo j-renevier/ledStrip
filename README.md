@@ -1,14 +1,15 @@
-<div style="position: relative; text-align: center; color: white;">
-  <img src="./resource/image/projetled.jpg" alt="ESP8266 LED Strip" style="width: 100%; filter: brightness(50%);">
-  <h1 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 6rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
+<div style="position: relative; text-align: center; color: white; max-height:20rem; overflow: hidden; display: flex; justify-content: center; border-radius: 0.75rem">
+  <img src="./resource/image/projetled.jpg" alt="ESP8266 LED Strip" style="width: 100%; filter: brightness(50%); ">
+  <p style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: clamp(2rem, 13vw, 10rem); line-height: 1;  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
     LED STRIP
-  </h1>
+  </p>
 </div>
 
 
 ## Présentation du Projet
 
 Le projet consiste à contrôler une bande LED en utilisant une interface utilisateur sur un navigateur web. 
+
 L’interface permet :
 
 1. L’allumage ou l’extinction des LED.
@@ -17,9 +18,21 @@ L’interface permet :
 
 3. La sélection de modes statiques ou dynamiques pour des effets lumineux variés (par exemple, mode arc-en-ciel, une ou plusieurs couleurs fixes, etc.).
 
-Application android : [https://github.com/j-renevier/ledStrip/blob/feature/basics_api/V2/interface/pwa/app-release-signed.apk](Lien vers l'apk)
-Page github : [https://j-renevier.github.io/ledStrip/](Site heberger sur github page)
-Repository github : [https://github.com/j-renevier/ledStrip](Repo github)
+**Liens:**
+
+Application android : [Lien vers l'apk](https://github.com/j-renevier/ledStrip/blob/5c25e283d6c769a882c5fac66ce50d0e3f832c29/V2/interface/pwa/app-release-signed.apk)
+
+Page github : [Site heberger sur github page](https://j-renevier.github.io/ledStrip/)
+
+Repository github : [ledStrip](https://github.com/j-renevier/ledStrip)
+
+## Avertissement 
+
+Les couleurs sont décrites à l'aide des paramètres HSV — Teinte (Hue), Saturation et Valeur, qui diffèrent du modèle HSL.
+
+Le modèle HSL ajuste la luminosité en ajoutant du blanc ou du noir à la couleur, tandis que HSV la modifie uniquement en ajoutant du noir.
+
+![Projection des couleur dans l'espace](./resource/image/colorProjection.png)
 
 ## Release
 
@@ -349,39 +362,41 @@ Verison : 7.4.1 (lts 25/05/2025)
 
 Le contrôle des LED repose sur l'utilisation de la bibliothèque **FastLED** qui permet de gérer des effets lumineux complexes et d'interagir directement avec la bande LED.
 
-1. **Initialisation des LED** :
-   - Le code initialise la bande LED en spécifiant le nombre total de LED et la broche utilisée.
-   - Exemple :
-     ```cpp
-     #define LED_PIN 2 // D2 (GPIO4)
-     #define NUM_LEDS 185
-     CRGB leds[NUM_LEDS];
+1. **Initialisation des LED**
+    - Le code initialise la bande LED en spécifiant le nombre total de LED et la broche utilisée.
 
-     void setup() {
-         FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
-         FastLED.clear();
-         FastLED.show();
-     }
-     ```
+      ```cpp
+      #define LED_PIN 2 // D2 (GPIO4)
+      #define NUM_LEDS 185
+      CRGB leds[NUM_LEDS];
 
-2. **Gestion des Effets** :
-   - Les effets lumineux sont programmés comme des fonctions, par exemple :
-     - **Effet Arc-en-ciel** :
-       ```cpp
-       void rainbow() {
-           fill_rainbow(leds, NUM_LEDS, millis() / 10, 255 / NUM_LEDS);
-           FastLED.show();
-       }
-       ```
+      void setup() {
+        FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
+        FastLED.clear();
+        FastLED.show();
+      }
+      ```
 
-   - Les modes sont sélectionnés via des requêtes HTTP envoyées depuis l'interface web.
+2. **Gestion des Effets**
+    - Les effets lumineux sont programmés comme des fonctions
 
-3. **Mise à Jour Dynamique** :
-   - Les paramètres de luminosité, vitesse, ou couleur sont reçus via les requêtes HTTP et appliqués en temps réel :
-     ```cpp
-     FastLED.setBrightness(brightness);
-     FastLED.show();
-     ```
+        - **Effet Arc-en-ciel** :
+          ```cpp
+          void rainbow() {
+            fill_rainbow(leds, NUM_LEDS, millis() / 10, 255 / NUM_LEDS);
+            FastLED.show();
+          }
+          ```
+
+    - Les modes sont sélectionnés via des requêtes HTTP envoyées depuis l'interface web.
+
+3. **Mise à Jour Dynamique**
+    - Les paramètres de luminosité, vitesse, ou couleur sont reçus via les requêtes HTTP et appliqués en temps réel
+
+      ```cpp
+      FastLED.setBrightness(brightness);
+      FastLED.show();
+      ```
 
 ### Serveur Web
 
@@ -635,32 +650,34 @@ adb reverse tcp:5173 tcp:5173
 
 Dans le repertoire contenant le code source pour build l'apk
 
-```
-// <path_2_pwa_builder>\app\build.gradle
+- `<path_2_pwa_builder>\app\build.gradle`
 
-hostName: '192.168.1.189', 
-    def launchUrl = "http://" + twaManifest.hostName + twaManifest.launchUrl
-    launchUrl: '/'
-```
+    ```
+    hostName: '192.168.1.189', 
+        def launchUrl = "http://" + twaManifest.hostName + twaManifest.launchUrl
+        launchUrl: '/'
+    ```
 
-```xml
-<!-- <path_2_pwa_builder>\app\src\main\res\values\strings.xml -->
+- `<path_2_pwa_builder>\app\src\main\res\values\strings.xml`
 
-\"site\": \"http://192.168.1.189\"
-```
+    ```xml
+    \"site\": \"http://192.168.1.189\"
+    ```
 
-```xml
-<!-- <path_2_pwa_builder>\app\src\main\AndroidManifest.xml -->
-android:usesCleartextTraffic="true"
-android:networkSecurityConfig="@xml/network_security_config"
-```
+-  `<path_2_pwa_builder>\app\src\main\AndroidManifest.xml`
 
-```xml
-<!-- <path_2_pwa_builder>\app\src\main\res\xml\network_security_config.xml -->
-<?xml version="1.0" encoding="utf-8"?>
-<network-security-config>
-  <domain-config cleartextTrafficPermitted="true">
-    <domain includeSubdomains="true">192.168.1.189</domain>
-  </domain-config>
-</network-security-config>
-```
+    ```xml
+    android:usesCleartextTraffic="true"
+    android:networkSecurityConfig="@xml/network_security_config"
+    ```
+
+- `<path_2_pwa_builder>\app\src\main\res\xml\network_security_config.xml`
+
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <network-security-config>
+      <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">192.168.1.189</domain>
+      </domain-config>
+    </network-security-config>
+    ```

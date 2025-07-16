@@ -1,6 +1,4 @@
 const getNetworks = async (request) => {
-  const updatedAt = Date.now();
-
   try {
     const networks = await request('networks', 'GET');
     return {data: networks};

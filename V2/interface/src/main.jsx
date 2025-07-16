@@ -1,5 +1,5 @@
 import { render } from 'preact'
 
-import App from './view/page/App'
+import App from './view/component/page/App'
 
 render(<App />, document.getElementById('app'))

@@ -41,14 +41,14 @@ export const dateToHourFrFormat = (timestamp) => {
 
 export const getKnowHost = () =>{
   return [
+    { label: '☎️ Téléphone', ip: '192.168.233.189'},
     { label: '📍 Défaut', ip: '192.168.1.1' },
     { label: '🏠 Maison', ip: '192.168.1.189' },
-    { label: '☎️ Téléphone', ip: '192.168.97.200' }
   ]
 }
 
 
-export const rgb2Hsv = ({r, g, b}) => {
+export const rgb2Hsv = (r, g, b) => {
   r /= 255, g /= 255, b /= 255;
 
   var max = Math.max(r, g, b), min = Math.min(r, g, b);
@@ -76,7 +76,7 @@ export const rgb2Hsv = ({r, g, b}) => {
   };
 };
 
-export const hsv2Rgb = ({h, s, v}) => {
+export const hsv2Rgb = (h, s, v) => {
   h /= 360, s /= 100, v /= 100;
   var r, g, b;
 
@@ -111,8 +111,7 @@ export const rgb2HexadecimalString = ({r, g, b}) => {
   return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
 }
 
-
-export const hsv2hslString = (h, s, v) => {
+export const hsv2Hsl = (h, s, v) => {
   s /= 100;
   v /= 100;
 
@@ -137,5 +136,34 @@ export const hsv2hslString = (h, s, v) => {
   const roundedL = Math.round(l * 100);
 
   // Retourner la couleur sous forme de chaîne HSL
-  return `hsl(${roundedH}, ${roundedSl}%, ${roundedL}%)`;
+  return {h: roundedH, s: roundedSl, l : roundedL};
+};
+
+export const hsv2hslString = (hsvH, hsvS, hsvV) => {
+  const {h, s, l } =  hsv2Hsl(hsvH, hsvS, hsvV)
+
+  // Retourner la couleur sous forme de chaîne HSL
+  return `hsl(${h}, ${s}%, ${l}%)`;
+};
+
+export const hsl2Hsv = (h, s, l) => {
+  // Conversion en [0,1]
+  s /= 100;
+  l /= 100;
+
+  // Calcul de Value
+  const v = l + s * Math.min(l, 1 - l);
+
+  // Calcul de Saturation HSV
+  let sv = 0;
+  if (v !== 0) {
+    sv = 2 * (1 - l / v);
+  }
+
+  // Retourner des valeurs en pourcentages arrondies
+  const roundedH = Math.round(h);
+  const roundedS = Math.round(sv * 100);
+  const roundedV = Math.round(v * 100);
+
+  return { h: roundedH, s: roundedS, v: roundedV };
 };

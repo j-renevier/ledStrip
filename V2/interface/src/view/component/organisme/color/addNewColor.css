@@ -1,0 +1,678 @@
+:root{
+  --color-main-red: 100;
+  --color-main-green: 100;
+  --color-main-blue: 100;
+
+  --color-main-hue: 50;
+  --color-main-saturation: 100;
+  --color-main-light: 50;
+
+  --color-main-saturation-hsv: 0;
+  --color-main-value-hsv: 0;
+
+  --color-red-min: 0;
+  --color-red-max: 255;
+  --color-green-min: 0;
+  --color-green-max: 255;
+  --color-blue-min: 0;
+  --color-blue-max: 255;
+
+  --color-hue-min: 0;
+  --color-hue-max: 360;
+  
+  --color-saturation-min: 0;
+  --color-saturation-max: 100;
+
+  --color-light-min: 0;
+  --color-light-max: 100;
+}
+
+.add-color .tooltip-parent .tooltip {
+  min-width: 125px;
+  top: 50%;
+  bottom: initial;
+  left: 100%;
+  transform: translate(0.5rem, -50%);
+}
+
+.add-color-dialog {
+  padding: 1rem 1rem 1rem 1rem;
+  background: linear-gradient(
+    90deg,
+    hsl(var(--color-main-hue), calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%))
+0.75rem,  rgba(255, 255, 255, 1) 0.5rem
+  );
+}
+
+
+@media (min-width: 380px) {
+.add-color-dialog {
+  padding: 1rem 1rem 1rem 2rem;
+  background: 
+    linear-gradient(
+      90deg,
+      hsl(var(--color-main-hue), calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%))
+ 1.5rem,  rgba(255, 255, 255, 1) 1.5rem
+    );
+}
+}
+
+
+@media (min-width: 400px) {
+  .add-color-dialog {
+    padding: 1rem 1rem 1rem 3.5rem;
+    background: 
+      linear-gradient(
+        90deg,
+        hsl(var(--color-main-hue), calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%))
+  3rem,  rgba(255, 255, 255, 1) 3rem
+      );
+  }
+}
+
+
+dialog form {
+  max-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+  gap: 0.5rem;
+    overflow: hidden;
+
+}
+
+
+dialog form .title {
+  align-self: center;
+}
+
+dialog form .setup {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.scrollable {
+    overflow-y: auto;
+  scrollbar-width: thin;
+  border-radius: inherit; 
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 9999px;
+}
+
+
+dialog form input[type="color"] {
+  height: 100px;
+  width: 100px;
+  aspect-ratio: 1 / 1;
+}
+
+
+dialog form .sys details summary{
+  outline: none;
+  appearance: none;
+  box-shadow: none;
+  padding-bottom: 0.5rem ;
+}
+
+
+dialog form .act {
+  align-self: flex-end;
+}
+
+
+.favorite-toggle {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.5rem 0 0;
+}
+
+.favorite-toggle > span {
+  font-size: 0.7rem;
+  font-style: italic;
+  padding-left: 0.75rem;
+}
+
+.favorite-toggle .switch {
+  height: 24px;
+  margin: 4px;
+}
+
+.favorite-toggle .slider:before {
+  height: 16px; 
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+}
+
+.favorite-toggle input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+.hex-sys.sys .select-param-wrapper{
+  width: fit-content;
+  max-width: 125px;
+}
+
+input[name="hexa"]{
+  height: 24px;
+  border-radius: 9999px;
+}
+
+/* Native picker  */
+.favorit-native-picker{
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 0.5rem;
+}
+
+.native-picker input[type="color"] {
+  height: 50px;
+  width: 50px;
+  
+  border-radius: 9999px;
+}
+
+/* Custom Picker */
+
+.sys-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.sys-wrapper .sys{
+  display: flex;
+  flex-direction: column; 
+}
+
+
+.sys-wrapper .sys .select-param-wrapper{
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+@media (min-width: 650px) {
+  .sys-wrapper .sys.hsv-sys .select-param-wrapper,
+  .sys-wrapper .sys.hsl-sys .select-param-wrapper,
+  .sys-wrapper .sys.hex-sys .select-param-wrapper,
+  .sys-wrapper .sys.rgb-sys .select-param-wrapper{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 880px) {
+  .sys-wrapper .sys.hex-sys .select-param-wrapper,
+  .sys-wrapper .sys.rgb-sys .select-param-wrapper{
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.sys-wrapper .sys label{
+  font-weight: 600;
+  font-size: 0.89em;
+  font-style: italic;
+  padding-left: 0.75rem;
+  color: rgb(78, 78, 78);
+}
+
+
+
+/* PARAM START */
+
+.sys-wrapper .color-param button, .sys-wrapper .color-param input {
+  font-size: 0.8rem ;
+  border: none ;
+  outline: none ;
+}
+
+.sys-wrapper .color-param{
+  min-width: 200px; 
+  max-width: 500px; 
+  width: auto; 
+  padding: 0 25px;
+  margin: 0.25rem 0;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto auto ;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.sys-wrapper .color-param .value{
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+
+  position: relative;
+  width: fit-content;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  transform: translate(calc(-50% + (1.5rem  / 2 )));
+  transition: all 0.2s ease-in-out;
+  transition: left  linear;
+  transform: translate(calc(-50%) , 0 );
+}
+
+.sys-wrapper .color-param .value:after {
+  position: absolute;
+  content: '';
+  height: 18px;
+  width: 1px;
+  top: calc(100% + 9px);
+  left: 50%;
+  transform: translate(-50%, 0);
+  background: rgba(255, 0, 0, 0.1);
+  border-radius: 99px;
+}
+
+.sys-wrapper .color-param .value:before {
+  position: absolute;
+  content: '';
+  height: 1px;
+  width: 18px;
+  top: calc(100% + 18px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 0, 0, 0.1);
+  border-radius: 99px;
+}
+
+
+
+.sys-wrapper .color-param button.color-praram-act-btn{
+  font-size: 0.8rem;
+  font-weight: 600;
+  width: 28px;
+  height: 28px;
+  aspect-ratio: 1 / 1;
+  padding: 0.25rem;
+  border-radius: 9999px;
+}
+
+.sys-wrapper .color-param input[type="range"]{
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+}
+
+.sys-wrapper .color-param button.color-praram-act-btn.min{
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+.sys-wrapper .color-param button.color-praram-act-btn.max{
+  grid-column: 3 / 4;
+  grid-row: 2 / 3;
+}
+
+
+/* INPUT NUMBER START */
+.sys-wrapper .color-param input[type=number]{
+  width: 54px;
+  height: 28px;
+  padding: 0.25rem;
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px rgb(0, 0, 0, 0.15);
+  outline: 0;
+  font-weight: 600;
+  text-align: center !important;
+  transition: all 0.1s linear;
+  border: 1px solid hsl(222, 90%, 55%);
+}
+
+.sys-wrapper .color-param input[type=number]:hover {
+  box-shadow: 0 6px 20px rgb(0, 0, 0, 0.25);
+}
+
+.sys-wrapper .color-param input[type=number]:focus {
+    border: 2px solid hsl(222, 90%, 55%);
+
+  box-shadow: 0 0 0 3px hsl(0, 0, 0, 0.3);
+}
+
+.sys-wrapper .color-param input[type=number]:focus-visible {
+  outline: 0;
+}
+
+.sys-wrapper .color-param input[type=number]::-webkit-inner-spin-button,
+.sys-wrapper .color-param input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* INPUT NUMBER END */
+
+
+/* INPUT RANGE START */ 
+.sys-wrapper input[type=range] {
+  appearance: none;
+  background: none;
+  min-width: 100%;
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px rgb(0, 0, 0, 0.15);
+}
+
+.sys-wrapper input[type=range]:focus {
+  appearance: none;
+  outline: none;
+  box-shadow: 0 4px 14px rgb(0, 0, 0, 0.15);
+}
+
+/* TRACK: Background */
+.sys-wrapper input[type=range]::-webkit-slider-runnable-track {
+  height: 1.5rem;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgb(0, 0, 0, 0.15);
+  transition: all 0.5s ease-in-out;
+}
+
+.sys-wrapper input[type=range]::-moz-range-track {
+  height:  1.5rem; 
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgb(0, 0, 0, 0.15);
+  transition: all 0.5s ease-in-out;
+}
+
+.sys-wrapper input[type=range]:focus::-webkit-slider-runnable-track {
+  box-shadow: 0 4px 14px rgb(0, 0, 0, 0.15);
+}
+
+.sys-wrapper input[type=range]:focus::-moz-range-track {
+  box-shadow: 0 4px 14px rgb(0, 0, 0, 0.15);
+}
+
+/* THUMB: Cursor  */
+.sys-wrapper input[type=range]::-webkit-slider-thumb {
+  position: relative;
+  z-index: 10 !important;
+  transform-origin: center;
+  appearance: none;
+  outline: 0;
+  height: calc(1.5rem -  0.25rem);
+  margin: calc(0.25rem / 2 ) 0;
+  aspect-ratio: 1 / 1;
+  box-shadow: none;
+  border:  1px solid black;
+  border-radius:  9999px;
+  background: transparent;
+  filter:  blur(1px);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.sys-wrapper input[type=range]::-moz-range-thumb {
+  appearance: none;
+  height: calc(1.5rem - 0.25rem);
+  margin: calc(0.25rem / 2 ) 0;
+  aspect-ratio: 1 / 1;
+  box-shadow: none;
+  border: 1px solid black;
+  border-radius:  9999px;
+  background:  rgb(var(--color-main-red), var(--color-main-green), var(--color-main-blue));
+  cursor: pointer;
+  filter:  blur(2px);
+  transition: all 0.3s ease-in-out;
+}
+
+.sys-wrapper input[type=range]:focus::-webkit-slider-thumb {
+  scale: 1.2;
+  aspect-ratio: 1 / 1;
+}
+
+.sys-wrapper input[type=range]:focus::-moz-range-thumb {
+  scale: 1.2;
+  aspect-ratio: 1 / 1;
+}
+
+
+
+/* HSV START */
+.sys-wrapper .hsv-sys input[type=range]::-webkit-slider-runnable-track{
+  background: linear-gradient(
+    90deg, 
+    hsl(var(--color-main-hue), calc(var(--color-main-saturation) * 1%), var(--color-main-value)), 
+    hsl(var(--color-main-hue), calc(var(--color-main-saturation) * 1%), var(--color-main-value)));
+}
+
+.sys-wrapper .hsv-sys input[type=range]::-webkit-slider-runnable-track{
+  background: linear-gradient(
+    90deg, 
+    hsl(var(--color-main-hue), calc(var(--color-main-saturation) * 1%), var(--color-main-value)), 
+    hsl(var(--color-main-hue), calc(var(--color-main-saturation) * 1%), var(--color-main-value)));
+}
+/* HSV END */
+
+
+/* HUE START */
+.sys-wrapper .color-param.hue .value{
+  /* Prise en compte du décalage lié au cursor du slider  */
+  left: calc(20px / 2 + (100% - (100% - (100% - 20px))) * (var(--color-main-hue) / 360)); 
+} 
+
+.sys-wrapper .color-param.hue input[type=range]::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    90deg, 
+    hsl(var(--color-hue-min), calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%)), 
+    hsl(45, calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%)), 
+    hsl(90, calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%)), 
+    hsl(135, calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%)), 
+    hsl(180, calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%)), 
+    hsl(225, calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%)), 
+    hsl(270, calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%)), 
+    hsl(315, calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%)), 
+    hsl(var(--color-hue-min), calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%)));
+  }
+ 
+.sys-wrapper .color-param.hue input[type=range]::-moz-range-track {
+  background: linear-gradient(
+    90deg, 
+    hsl(var(--color-hue-min), calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%)), 
+    hsl(calc(var(--color-main-hue) - 1), calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%)));
+}
+/* HUE END */
+
+/* SATURATION HSV START */
+.sys-wrapper .color-param.saturation-hsv .value{
+  /* Prise en compte du décalage lié au cursor du slider  */
+  left: calc(20px / 2 + (100% - (100% - (100% - 20px))) * (var(--color-main-saturation-hsv) / 100)); 
+} 
+
+.sys-wrapper .color-param.saturation-hsv input[type=range]::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    90deg, 
+    #ffffff, 
+    hsl(var(--color-main-hue), calc(var(--color-saturation-max) * 1%), calc(var(--color-main-light) * 1%)));
+}
+
+.sys-wrapper .color-param.saturation-hsv input[type=range]::-moz-range-track {
+  background: linear-gradient(
+    90deg, 
+    #ffffff, 
+    hsl(var(--color-main-hue), calc(var(--color-saturation-max) * 1%), calc(var(--color-main-light) * 1%)));
+}
+/* SATURATION HSV END */
+
+/* VALUE HSV HSV START */
+.sys-wrapper .color-param.value-hsv .value{
+  /* Prise en compte du décalage lié au cursor du slider  */
+  left: calc(20px / 2 + (100% - (100% - (100% - 20px))) * (var(--color-main-value-hsv) / 100)); 
+} 
+
+.sys-wrapper .color-param.value-hsv input[type=range]::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    90deg, 
+    #000000, 
+    hsl(var(--color-main-hue), calc(var(--color-saturation-max) * 1%), calc(var(--color-main-light) * 1%)));
+}
+
+.sys-wrapper .color-param.value-hsv input[type=range]::-moz-range-track {
+  background: linear-gradient(
+    90deg,
+    #000000, 
+    hsl(var(--color-main-hue), calc(var(--color-saturation-max) * 1%), calc(var(--color-main-light) * 1%)));
+}
+/* VALUE HSV END */
+
+
+/* SATURATION HSL START */
+.sys-wrapper .color-param.saturation-hsl .value{
+  /* Prise en compte du décalage lié au cursor du slider  */
+  left: calc(20px / 2 + (100% - (100% - (100% - 20px))) * (var(--color-main-saturation) / 100)); 
+} 
+
+.sys-wrapper .color-param.saturation-hsl input[type=range]::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    90deg, 
+    hsl(var(--color-main-hue), calc(var(--color-saturation-min) * 1%), calc(var(--color-main-light) * 1%)), 
+    hsl(var(--color-main-hue), calc(var(--color-saturation-max) * 1%), calc(var(--color-main-light) * 1%)));
+}
+
+.sys-wrapper .color-param.saturation-hsl input[type=range]::-moz-range-track {
+  background: linear-gradient(
+    90deg, 
+    hsl(var(--color-main-hue), calc(var(--color-saturation-min) * 1%), calc(var(--color-main-light) * 1%)), 
+    hsl(var(--color-main-hue), calc(var(--color-saturation-max) * 1%), calc(var(--color-main-light) * 1%)));
+}
+/* SATURATION HSL END */
+
+/* LIGHT HSL START */
+.sys-wrapper .color-param.light-hsl .value{
+  /* Prise en compte du décalage lié au cursor du slider  */
+  left: calc(20px / 2 + (100% - (100% - (100% - 20px))) * (var(--color-main-light) / 100)); 
+} 
+
+.sys-wrapper .color-param.light-hsl input[type=range]::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    90deg, 
+    hsl(var(--color-main-hue), calc(var(--color-main-saturation) * 1%), calc(var(--color-light-min) * 1%)), 
+    hsl(var(--color-main-hue), calc(var(--color-main-saturation) * 1%), calc(var(--color-light-max) * 1%)));
+}
+
+.sys-wrapper .color-param.light-hsl input[type=range]::-moz-range-track {
+  background: linear-gradient(
+    90deg, 
+    hsl(var(--color-main-hue), calc(var(--color-main-saturation) * 1%), calc(var(--color-light-min) * 1%)), 
+    hsl(var(--color-main-hue), calc(var(--color-main-saturation) * 1%), calc(var(--color-light-max) * 1%)));
+}
+/* LIGHT HSL END */
+
+
+/* RED RGB START */
+.sys-wrapper .color-param.red .value{
+  /* Prise en compte du décalage lié au cursor du slider  */
+  left: calc(20px / 2 + (100% - (100% - (100% - 20px))) * (var(--color-main-red) / 255)); 
+} 
+
+.sys-wrapper .color-param.red input[type=range]::-webkit-slider-runnable-track{
+  background: linear-gradient(
+    90deg, 
+    rgb(var(--color-red-min), var(--color-main-green), var(--color-main-blue)), 
+    rgb(var(--color-red-max), var(--color-main-green), var(--color-main-blue)));
+}
+
+.sys-wrapper .color-param.red input[type=range]::-moz-range-track {
+  background: linear-gradient(
+    90deg, 
+    rgb(var(--color-red-min), var(--color-main-green), var(--color-main-blue)), 
+    rgb(var(--color-red-max), var(--color-main-green), var(--color-main-blue)));
+}
+/* RED RGB END */
+
+/* GREEN RGB START */
+.sys-wrapper .color-param.green .value{
+  /* Prise en compte du décalage lié au cursor du slider  */
+  left: calc(20px / 2 + (100% - (100% - (100% - 20px))) * (var(--color-main-green) / 255)); 
+} 
+
+.sys-wrapper .color-param.green input[type=range]::-webkit-slider-runnable-track{
+  background: linear-gradient(
+    90deg, 
+    rgb(var(--color-main-red), var(--color-green-min), var(--color-main-blue)), 
+    rgb(var(--color-main-red), var(--color-green-max), var(--color-main-blue)));
+}
+
+.sys-wrapper .color-param.green input[type=range]::-moz-range-track {
+  background: linear-gradient(
+    90deg, 
+    rgb(var(--color-main-red), var(--color-green-min), var(--color-main-blue)), 
+    rgb(var(--color-main-red), var(--color-green-max), var(--color-main-blue)));
+}
+/* GREEN RGB END */
+
+
+/* BLUE RGB START */
+.sys-wrapper .color-param.blue .value{
+  /* Prise en compte du décalage lié au cursor du slider  */
+  left: calc(20px / 2 + (100% - (100% - (100% - 20px))) * (var(--color-main-blue) / 255)); 
+} 
+
+.sys-wrapper .color-param.blue input[type=range]::-webkit-slider-runnable-track{
+  background: linear-gradient(
+    90deg, 
+    rgb(var(--color-main-red), var(--color-main-green), var(--color-blue-min)), 
+    rgb(var(--color-main-red), var(--color-main-green), var(--color-blue-max)));
+}
+
+.sys-wrapper .color-param.blue input[type=range]::-moz-range-track {
+  background: linear-gradient(
+    90deg, 
+    rgb(var(--color-main-red), var(--color-main-green), var(--color-blue-min)), 
+    rgb(var(--color-main-red), var(--color-main-green), var(--color-blue-max)));
+}
+/* BLUE RGB END */
+
+
+
+
+.sys-wrapper .color-param.blue .value{
+  left: calc(100% * (var(--color-main-blue) / 255));
+}
+
+.sys-wrapper .color-param.blue input[type=range]::-moz-range-track {
+  background: linear-gradient(
+    90deg, 
+    rgb(var(--color-main-red), var(--color-main-green), var(--color-blue-min)), 
+    rgb(var(--color-main-red), var(--color-main-green), var(--color-blue-max)));
+}
+
+.sys-wrapper .color-param.blue input[type=range]::-moz-range-track {
+  background: linear-gradient(
+    90deg, 
+    rgb(var(--color-main-red), var(--color-main-green), var(--color-blue-min)), 
+    rgb(var(--color-main-red), var(--color-main-green), var(--color-blue-max)));
+}
+
+
+/* 
+.red input[type=range]::-webkit-slider-runnable-track,
+.green input[type=range]::-webkit-slider-runnable-track,
+.blue input[type=range]::-webkit-slider-runnable-track {
+  background: linear-gradient(
+    90deg, 
+    rgb(var(--color-main-red), var(--color-main-green), var(--color-main-blue)), 
+    rgb(var(--color-main-red), var(--color-main-green), var(--color-main-blue)));
+}
+
+.red input[type=range]::-moz-range-track,
+.green input[type=range]::-moz-range-track,
+.blue input[type=range]::-moz-range-track {
+  background: linear-gradient(
+    90deg, 
+    rgb(var(--color-main-red), var(--color-main-green), var(--color-main-blue)), 
+    rgb(var(--color-main-red), var(--color-main-green), var(--color-main-blue)));
+}
+ */
+
