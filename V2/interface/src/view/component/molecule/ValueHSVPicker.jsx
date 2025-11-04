@@ -1,4 +1,4 @@
-const ValueHSVPicker = ({addColor, setAddColor}) => {
+const ValueHSVPicker = ({newColor, setNewColor}) => {
   return (
     <div className='value-hsv'>
       <label htmlFor="inputValue-hsv">Value [0 - 100]</label>
@@ -6,7 +6,7 @@ const ValueHSVPicker = ({addColor, setAddColor}) => {
         <div className="value">
           <button 
             className="color-praram-act-btn" 
-            onClick={()=> setAddColor(prev => ({...prev, hsv: { ...prev.hsv, v: (prev.hsv.v - 1) < 0 ? 100 : (prev.hsv.v - 1)}}))}
+            onClick={()=> setNewColor(prev => ({...prev, hsv: { ...prev.hsv, v: (prev.hsv.v - 1) < 0 ? 100 : (prev.hsv.v - 1)}}))}
             type="button"
             >
               -
@@ -19,12 +19,12 @@ const ValueHSVPicker = ({addColor, setAddColor}) => {
             min="0" 
             max="100" 
             step="1"  
-            value={addColor.hsv.v ?? 0}
-            onInput={(event)=> setAddColor(prev => ({...prev, hsv: { ...prev.hsv, v: (event.target.value < 0 ? 0 : (event.target.value <= 100 ? event.target.value : 100))}}))}
+            value={newColor.hsv.v ?? 0}
+            onInput={(event)=> setNewColor(prev => ({...prev, hsv: { ...prev.hsv, v: (event.target.value < 0 ? 0 : (event.target.value <= 100 ? event.target.value : 100))}}))}
           />
           <button 
             className="color-praram-act-btn" 
-            onClick={()=> setAddColor(prev => ({...prev, hsv: { ...prev.hsv, v: (prev.hsv.v + 1) > 100 ? 0 : (prev.hsv.v + 1)}}))}
+            onClick={()=> setNewColor(prev => ({...prev, hsv: { ...prev.hsv, v: (prev.hsv.v + 1) > 100 ? 0 : (prev.hsv.v + 1)}}))}
             type="button"
           >
             +
@@ -32,7 +32,7 @@ const ValueHSVPicker = ({addColor, setAddColor}) => {
         </div>
         <button 
           className="min color-praram-act-btn"
-          onClick={()=> setAddColor(prev => ({...prev, hsv: { ...prev.hsv, v: 0}}))}
+          onClick={()=> setNewColor(prev => ({...prev, hsv: { ...prev.hsv, v: 0}}))}
           type="button"
         >
           0
@@ -45,12 +45,12 @@ const ValueHSVPicker = ({addColor, setAddColor}) => {
           min="0" 
           max="100"
           step="1"  
-          value={addColor.hsv.v ?? 0}
-          onInput={(event)=> setAddColor(prev => ({...prev, hsv: { ...prev.hsv, v: Math.round(event.target.value)}}))}
+          value={newColor.hsv.v ?? 0}
+          onInput={(event)=> setNewColor(prev => ({...prev, hsv: { ...prev.hsv, v: Math.round(event.target.value)}}))}
         />
         <button 
           className="max color-praram-act-btn" 
-          onClick={()=> setAddColor(prev => ({...prev, hsv: { ...prev.hsv, v: 100}}))}
+          onClick={()=> setNewColor(prev => ({...prev, hsv: { ...prev.hsv, v: 100}}))}
           type="button"
         >
           100

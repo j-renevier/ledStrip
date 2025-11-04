@@ -41,9 +41,9 @@ export const dateToHourFrFormat = (timestamp) => {
 
 export const getKnowHost = () =>{
   return [
+    { label: '🏠 Maison', ip: '192.168.1.189' },
     { label: '☎️ Téléphone', ip: '192.168.233.189'},
     { label: '📍 Défaut', ip: '192.168.1.1' },
-    { label: '🏠 Maison', ip: '192.168.1.189' },
   ]
 }
 
@@ -167,3 +167,16 @@ export const hsl2Hsv = (h, s, l) => {
 
   return { h: roundedH, s: roundedS, v: roundedV };
 };
+
+export const color2NewColorValue = (value) => {
+  return {
+    index: value.index ?? null,
+    hsv: {
+      h: Math.round(value.hue * 360 / 255) ?? 0,
+      s: Math.round(value.saturation * 100 / 255) ?? 0,
+      v: Math.round(value.value * 100 / 255) ?? 0
+    },
+    isFavorite: value.is_favorite ?? false
+  }
+  
+}

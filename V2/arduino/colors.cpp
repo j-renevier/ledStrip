@@ -3,7 +3,7 @@
 
 #include "./classes/colors.h"
 
-Colors::Colors() : _maxFavoriteColors(5), _maxColors(32)
+Colors::Colors() : _favoriteColorsLeft(5), _maxColors(32)
 {
   _colors.reserve(_maxColors);
 
@@ -40,8 +40,8 @@ std::pair<Colors::Color*, int> Colors::addColor(
   uint8_t hue,
   uint8_t saturation,
   uint8_t value,
-  std::optional<bool> isFavoriteOpt,
-  std::optional<int> rank)
+  std::optional<bool> isFavoriteOpt
+)
 {
   bool isFavorite = isFavoriteOpt.value_or(false);
 
@@ -52,9 +52,9 @@ std::pair<Colors::Color*, int> Colors::addColor(
 
   if (isFavorite)
   {
-    if (_maxFavoriteColors > 0)
+    if (_favoriteColorsLeft > 0)
     {
-      _maxFavoriteColors--;
+      _favoriteColorsLeft--;
     }
     else
     {
@@ -65,15 +65,11 @@ std::pair<Colors::Color*, int> Colors::addColor(
   CHSV  hsv = CHSV(hue, saturation, value);
   Color color = {hsv, isFavorite};
 
-  int newRank;
-  if (rank.has_value() && rank.value() >= 0 && rank.value() < (int)_colors.size()) {
-    _colors.insert(_colors.begin() + rank.value(), color);
-    newRank = rank.value();
-  } else {
-    _colors.push_back(color);
-    newRank = _colors.size() - 1;
-  }
-  return {&_colors[newRank], newRank};
+  _colors.push_back(color);
+
+  int index = _colors.size() - 1;
+  
+  return {&_colors[index], index};
 }
 
 
@@ -82,46 +78,35 @@ std::pair<Colors::Color*, int> Colors::updateColor(
   std::optional<uint8_t> hue,
   std::optional<uint8_t> saturation,
   std::optional<uint8_t> value,
-  std::optional<bool> isFavorite,
-  std::optional<int> rank)
+  std::optional<bool> isFavorite
+)
 {
   if (index >= _colors.size()) {
     return {nullptr, -1};
   }
 
-  Color current = _colors[index];
+  Color &color = _colors[index];
 
-  if (isFavorite.has_value() && isFavorite.value() != current.isFavorite) {
+  if (isFavorite.has_value() && isFavorite.value() != color.isFavorite) {
     if (isFavorite.value()) {
-      if (_maxFavoriteColors > 0) {
-        _maxFavoriteColors--;
+      if (_favoriteColorsLeft > 0) {
+        _favoriteColorsLeft--;
       } else {
         return {nullptr, -1};
       }
     } else {
-      if (current.isFavorite) {
-        _maxFavoriteColors++;
+      if (color.isFavorite) {
+        _favoriteColorsLeft++;
       }
     }
-    current.isFavorite = isFavorite.value();
+    color.isFavorite = isFavorite.value();
   }
-
-  if (hue.has_value()) current.hsv.h = hue.value();
-  if (saturation.has_value()) current.hsv.s = saturation.value();
-  if (value.has_value()) current.hsv.v = value.value();
-
-  _colors.erase(_colors.begin() + index);
-
-  int newRank;
-  if (rank.has_value() && rank.value() >= 0 && rank.value() < (int)_colors.size()) {
-    _colors.insert(_colors.begin() + rank.value(), current);
-    newRank = rank.value();
-  } else {
-    _colors.push_back(current);
-    newRank = _colors.size() - 1;
-  }
-
-  return {&_colors[newRank], newRank};
+  
+  if (hue.has_value()) color.hsv.h = hue.value();
+  if (saturation.has_value()) color.hsv.s = saturation.value();
+  if (value.has_value()) color.hsv.v = value.value();
+  
+  return {&_colors[index], index};
 }
 
 int Colors::getSize()
@@ -138,7 +123,7 @@ bool Colors::deleteColor(size_t index)
 
   if(_colors[index].isFavorite)
   {
-    _maxFavoriteColors++; 
+    _favoriteColorsLeft++; 
   }
 
   _colors.erase(_colors.begin() + index);
@@ -174,14 +159,14 @@ JsonDocument Colors::getColorsInfoJsonDoc()
   JsonDocument doc;
 
   doc["max_colors"] = _maxColors;
-  doc["max_favorite_colors"] = _maxFavoriteColors;
+  doc["favorite_colors_left"] = _favoriteColorsLeft;
   doc["colors_size"] = (int)_colors.size();
 
   JsonArray colorsArray = doc["colors"].to<JsonArray>();
 
   for (size_t i = 0; i < _colors.size(); ++i) {
     JsonObject obj = colorsArray.add<JsonObject>();
-    obj["id"] = i;
+    obj["index"] = i;
     obj["hue"] = _colors[i].hsv.h;
     obj["saturation"] = _colors[i].hsv.s;
     obj["value"] = _colors[i].hsv.v;

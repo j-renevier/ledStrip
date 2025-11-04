@@ -68,6 +68,10 @@ Le modèle HSL ajuste la luminosité en ajoutant du blanc ou du noir à la coule
 - **Application Mobile** :
   - Développement d’une application mobile dédiée.
 
+- **Documentation** :
+  - Documenation des API
+  - Documentation de l'app
+
 #### En cours 
 - **Refacto de l'architecture :**
   - POO
@@ -77,10 +81,22 @@ Le modèle HSL ajuste la luminosité en ajoutant du blanc ou du noir à la coule
 - **Refacto de l'interface**
   - Preact
 
+- **Fonctionalité dans l'interface**
+  - Actions
+    - 
+    
+  - Réseaux 
+    - Verifier la connexion
+    - Trouver l'IP de l'hote
+
+  - Couleurs 
+    - Edition d'une couleurs
+    - Suppression d'une couleurs
+
 #### A Faire
         
 - [Interface] Factoriser les composants
-- [Interface] Creer des coulaur dans le dashboard
+- [Interface] Creer des couleur dans le dashboard
 - [Arduino] Persister les couleurs, et les configuration : luminosité, vitesse, ordre ... 
 
 - [Arduino] Nouveau schéma static (palette)
@@ -90,12 +106,10 @@ Le modèle HSL ajuste la luminosité en ajoutant du blanc ou du noir à la coule
 - [Arduino] Prendre en compte l'offset
 - [Arduino] Prendre en compte le spread
 
-- [API & Interface] Modification de la blur, offset, spread, speed, brightness
+- [API & Interface] Modification du blur, offset, spread, speed, brightness
 - [API] Envoyer des valeurs pertinante a travers le websocket (state, order...)
 - [Interface] Mettre a jours automatiquement en récuperant les valeurs via le websocket
 
-- [Arduino & API & Interface] Edition d'une couleurs
-- [Arduino & API & Interface] Suppression d'une couleurs
 - [Mobile] App mobile
 
 
@@ -218,6 +232,7 @@ Verison : 1.5.4 (lts 11/06/2025)
 
 ### Librairie
 
+```
 #include <vector>
 #include <optional>
 #include <functional>
@@ -230,6 +245,7 @@ Verison : 1.5.4 (lts 11/06/2025)
 #include <ArduinoJson.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+```
 
 #### FastLED
 
@@ -681,3 +697,5 @@ Dans le repertoire contenant le code source pour build l'apk
       </domain-config>
     </network-security-config>
     ```
+
+

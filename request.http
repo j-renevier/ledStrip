@@ -1,0 +1,12 @@
+###
+@ESP8266_HOST = 192.168.1.189
+
+###
+GET http://{{ESP8266_HOST}}/api/health
+
+###
+PATCH http://{{ESP8266_HOST}}/api/lights/state
+Content-Type: application/json
+
+{}
+

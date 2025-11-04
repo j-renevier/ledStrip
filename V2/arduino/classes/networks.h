@@ -26,8 +26,6 @@ protected:
 
   uint16_t webServerPort;
   const char *webSocketRoot;
-
-  AsyncWebSocket *ws;
   
   // Méthodes internes
   void initWiFi(const char *ssid, const char *password);
@@ -42,11 +40,13 @@ protected:
   std::function<void(AsyncWebSocketClient *)> connectHandler;
   std::function<void(AsyncWebSocketClient *)> disconnectHandler;
   std::function<void(AsyncWebSocketClient *, const char *)> errorHandler;
+
   
   void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
   
   public:
   AsyncWebServer *server;
+  AsyncWebSocket *ws;    
   Networks(HardwareSerial &_serial, String _env, uint8_t configIP[4], uint8_t configGateway[4], uint8_t configSubnet[4]);
 
   String getNetworkInfo();
@@ -57,7 +57,7 @@ protected:
   void onGet(const char *uri, RequestHandler handler);
   void onPost(const char *uri, RequestHandlerJson handler);
   void onPatch(const char *uri, RequestHandlerJson handler);
-  void onDelete(const char *uri, RequestHandler handler);
+  void onDelete(const char *uri, RequestHandlerJson handler);
 
   void serveStatic(const char *uri, const char *path);
 
@@ -66,6 +66,16 @@ protected:
   void onWebSocketDisconnect(const std::function<void(AsyncWebSocketClient *)> &handler);
   void onWebSocketError(const std::function<void(AsyncWebSocketClient *, const char *)> &handler);
   void notifyClients(const String &message);
+
+  void cleanupWebSocket() {
+    if (ws) {
+      ws->cleanupClients();
+    }
+  }
+  
+  uint8_t getWebSocketClientCount() {
+    return ws ? ws->count() : 0;
+  }
 };
 
 #endif

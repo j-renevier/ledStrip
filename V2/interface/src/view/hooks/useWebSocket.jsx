@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, useCallback } from 'preact/hooks';
 import { useAppContext } from '../context/AppContext';
 import { useLightStore } from '../store/useLightStore';
 
-export const useWebSocket = (onMessageCallback = null, autoConnect = true) => {
+export const useWebSocket = (onMessageCallback = null, autoConnect = false) => {
   const { host, port, protocolSocket, rootSocket} = useAppContext();
   const url = `${protocolSocket}://${host}:${port}${rootSocket}`;
 

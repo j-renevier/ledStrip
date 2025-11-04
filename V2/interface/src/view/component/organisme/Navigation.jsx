@@ -33,10 +33,13 @@ const Navigation = ({page}) => {
         </button>
         <Popup popoverElementRef={popoverElementRef} className="navigation-developed">
           <SelectNetworks compact={true}/>
-          <Link href="/network">Réseaux</Link>
+          <Link href="/">Commande</Link>
+          <Link href="/home">Home</Link>
+          <Link href="/networks">Réseaux</Link>
           <Link href="/lights">Lumières</Link>
           <Link href="/patterns">Schémas</Link>
           <Link href="/colors">Couleurs</Link>
+          <Link href="/three">Three</Link>
           <Link href="/documentation" className={page ==='documentation' && 'current-page'}>Documentation</Link>
           <a href={healthroot} target="_blank" className="version">{version && `Version : ${version}`}</a>
         </Popup>

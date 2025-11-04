@@ -5,18 +5,16 @@ import { useColorStore } from '../../../store/useColorStore';
 import { hexadecimalString2Rgb, hsl2Hsv, hsv2Hsl, hsv2Rgb, rgb2HexadecimalString, rgb2Hsv } from '../../../../usecase/common';
 
 import HuePicker from '../../molecule/HuePicker';
+import RedPicker from '../../molecule/RedPicker';
+import BluePicker from '../../molecule/BluePicker';
+import GreenPicker from '../../molecule/GreenPicker';
 import ToggleSwitch from '../../molecule/ToggleSwitch';
 import ValueHSVPicker from '../../molecule/ValueHSVPicker';
-import SaturationHSVPicker from '../../molecule/SaturationHSVPicker';
-
-import './addNewColor.css'
-import SaturationHSLPicker from '../../molecule/SaturationHSLPicker';
 import LightHSLPicker from '../../molecule/LightHSLPicker';
-import RedPicker from '../../molecule/RedPicker';
-import GreenPicker from '../../molecule/GreenPicker';
-import BluePicker from '../../molecule/BluePicker';
+import SaturationHSVPicker from '../../molecule/SaturationHSVPicker';
+import SaturationHSLPicker from '../../molecule/SaturationHSLPicker';
 
-const addColorInitValue = {hsv: {h : 0, s: 100, v: 100}, isFavorite: false}
+import './newColor.css'
 
 const updateCssValues = (hsvColor, hslColor, rgbColor) => {
   let root = document.documentElement
@@ -37,40 +35,48 @@ const areHsvEqual = (a, b) => {
   return  a.h === b.h && a.s === b.s && a.v === b.v
 };
 
-const AddNewColor = () => {
+
+const NewColor = ({title = 'Nouvelle couleur', children='Nouvelle couleur', className='', newColorInitValue = {index : null, hsv: {h : 0, s: 100, v: 100}, isFavorite: false}, autoOpen = false, onClose }) => {
 
   const { request } = useApi();
-  const { createColor } = useColorStore();
+  const { createColor, updateColor } = useColorStore();
 
   const dialogRef = useRef(null)
-  const [addColor, setAddColor] = useState(addColorInitValue)
-  const [hexVal, setHexVal] = useState('#ff0000');
-  const [hslVal, setHslVal] = useState({h: 0, s: 100, l: 50})
-  const [rgbVal, setRgbVal] = useState({r: 255, g: 0, b: 0})
+  const [newColor, setNewColor] = useState(newColorInitValue)
+  const [hexVal, setHexVal] = useState(rgb2HexadecimalString(hsv2Rgb(newColor.hsv.h, newColor.hsv.s, newColor.hsv.v)));
+  const [hslVal, setHslVal] = useState(hsv2Hsl(newColor.hsv.h, newColor.hsv.s, newColor.hsv.v))
+  const [rgbVal, setRgbVal] = useState(hsv2Rgb(newColor.hsv.h, newColor.hsv.s, newColor.hsv.v))
 
   useEffect(() => {
-    setHexVal(rgb2HexadecimalString(hsv2Rgb(addColor.hsv.h, addColor.hsv.s, addColor.hsv.v)));
-    setHslVal(hsv2Hsl(addColor.hsv.h, addColor.hsv.s, addColor.hsv.v));
-    setRgbVal(hsv2Rgb(addColor.hsv.h, addColor.hsv.s, addColor.hsv.v));
-  }, [addColor.hsv]);
+    if (autoOpen && dialogRef.current) {
+      dialogRef.current.showModal();
+    }
+  }, [autoOpen]);
 
   useEffect(() => {
-    updateCssValues(addColor.hsv, hslVal, rgbVal)
-  }, [addColor.hsv, hslVal, rgbVal]);
+    setHexVal(rgb2HexadecimalString(hsv2Rgb(newColor.hsv.h, newColor.hsv.s, newColor.hsv.v)));
+    setHslVal(hsv2Hsl(newColor.hsv.h, newColor.hsv.s, newColor.hsv.v));
+    setRgbVal(hsv2Rgb(newColor.hsv.h, newColor.hsv.s, newColor.hsv.v));
+  }, [newColor.hsv]);
+
+
+  useEffect(() => {
+    updateCssValues(newColor.hsv, hslVal, rgbVal)
+  }, [newColor.hsv, hslVal, rgbVal]);
 
   const updateHslVal = ({h, s, l}) => {
     setHslVal({ h, s, l });
     const newHsv = hsl2Hsv(h , s, l);
-    if (!areHsvEqual(newHsv, addColor.hsv)) {
-      setAddColor(prev => ({ ...prev, hsv: newHsv }));
+    if (!areHsvEqual(newHsv, newColor.hsv)) {
+      setNewColor(prev => ({ ...prev, hsv: newHsv }));
     }
   }
 
   const updateRgbVal = ({r, g, b}) => {
     setRgbVal({r, g, b});
     const newHsv = rgb2Hsv(r, g, b);
-    if (!areHsvEqual(newHsv, addColor.hsv)) {
-      setAddColor(prev => ({ ...prev, hsv: newHsv }));
+    if (!areHsvEqual(newHsv, newColor.hsv)) {
+      setNewColor(prev => ({ ...prev, hsv: newHsv }));
     }
   }
 
@@ -84,50 +90,82 @@ const AddNewColor = () => {
       const rgb = hexadecimalString2Rgb(`#${raw}`);
       const newHsv = rgb2Hsv(rgb.r, rgb.g, rgb.b);
 
-      if (!areHsvEqual(newHsv, addColor.hsv)) {
-        setAddColor((prev) => ({ ...prev, hsv: newHsv }));
+      if (!areHsvEqual(newHsv, newColor.hsv)) {
+        setNewColor((prev) => ({ ...prev, hsv: newHsv }));
       }
     }
   }
 
-  const closeAddColor = () => {
-    setAddColor(addColorInitValue)
-    setHexVal(rgb2HexadecimalString(hsv2Rgb(addColor.hsv.h, addColor.hsv.s, addColor.hsv.v)));
+  const closeNewColor = () => {
+    setNewColor(newColorInitValue)
+    setHexVal(rgb2HexadecimalString(hsv2Rgb(newColor.hsv.h, newColor.hsv.s, newColor.hsv.v)));
     dialogRef.current?.close()
+    if (onClose) onClose();
   }
 
-  const handleAddColor = async (event) =>{
+  const handleNewColor = async (event) =>{
     event.preventDefault()
-    const body = {
-      hue: Math.round(addColor.hsv.h * 255 / 360),     
-      saturation: Math.round(addColor.hsv.s * 255 / 100),     
-      value: Math.round(addColor.hsv.v * 255 / 100),
-      isFavorite: addColor.isFavorite
-    }
-    
-    const createColors = await createColor(request, body)
 
-    if(createColors.data){
-      closeAddColor()
+    let result
+    if (newColor.index !== null && newColor.index !== undefined) {
+
+      const body = {
+        index : newColorInitValue.index
+      }
+
+      newColorInitValue.hsv.h !== Math.round(newColor.hsv.h * 255 / 360) ? body.hue = Math.round(newColor.hsv.h * 255 / 360) : null
+      newColorInitValue.hsv.s !== Math.round(newColor.hsv.s * 255 / 100) ? body.saturation = Math.round(newColor.hsv.s * 255 / 100) : null
+      newColorInitValue.hsv.v !== Math.round(newColor.hsv.v * 255 / 100) ? body.value = Math.round(newColor.hsv.v * 255 / 100) : null
+      newColorInitValue.isFavorite !== newColor.isFavorite ? body.isFavorite = newColor.isFavorite : null
+      
+      result = await updateColor(request, body)
+
+    } else {
+      const body = {
+        hue: Math.round(newColor.hsv.h * 255 / 360),     
+        saturation: Math.round(newColor.hsv.s * 255 / 100),     
+        value: Math.round(newColor.hsv.v * 255 / 100),
+        isFavorite: newColor.isFavorite
+      }
+      
+      result = await createColor(request, body)
+    }
+
+    if(result.data){
+      closeNewColor()
+      return null
     }  else {
-      setAddColor(addColorInitValue)
+      setNewColor(newColorInitValue)
     }
   }
 
+  
+  const handleOpenModal = () => {
+    setHslVal(hsv2Hsl(newColor.hsv.h, newColor.hsv.s, newColor.hsv.v));
+    setRgbVal(hsv2Rgb(newColor.hsv.h, newColor.hsv.s, newColor.hsv.v));
+
+    setTimeout(() => {
+      dialogRef.current?.showModal()
+    }, 1);
+  }
 
   return (
-    <div className="add-color">
-      <button onClick={() => dialogRef.current?.showModal()}>Nouvelle couleur</button>
+    <div className="new-color">
+      { 
+        autoOpen || (
+          <button onClick={handleOpenModal} className={className}>{children}</button>
+        )
+      }
 
-      <dialog ref={dialogRef} className="add-color-dialog" >
-        <form onSubmit={handleAddColor} onReset={closeAddColor}>
-          <h2 className='title'>Nouvelle couleur</h2>
+      <dialog ref={dialogRef} className="new-color-dialog" >
+        <form onSubmit={handleNewColor} onReset={closeNewColor}>
+          <h2 className='title'>{title}</h2>
 
           <div className="scrollable">
             <div className='pick-color sys-wrapper'>
               <div className='hue-sys sys'>
                 <div className='select-param-wrapper'>
-                  <HuePicker addColor={addColor} setAddColor={setAddColor}/>
+                  <HuePicker newColor={newColor} setNewColor={setNewColor}/>
                 </div>
               </div>
 
@@ -145,12 +183,11 @@ const AddNewColor = () => {
                 <details>
                   <summary>HSV</summary>
                   <div className='select-param-wrapper'>
-                    <SaturationHSVPicker addColor={addColor} setAddColor={setAddColor}/>
-                    <ValueHSVPicker addColor={addColor} setAddColor={setAddColor}/>
+                    <SaturationHSVPicker newColor={newColor} setNewColor={setNewColor}/>
+                    <ValueHSVPicker newColor={newColor} setNewColor={setNewColor}/>
                   </div>
                 </details>
               </div>
-
 
               <div className='rgb-sys sys'>
                 <details>
@@ -167,7 +204,7 @@ const AddNewColor = () => {
             <div className='favorit-native-picker'>
 
               <div className='native-picker'>
-                <input type='color' name='color' value={rgb2HexadecimalString(hsv2Rgb(addColor.hsv.h, addColor.hsv.s, addColor.hsv.v))} onInput={(event)=>handleChangeColor(event)} />
+                <input type='color' name='color' value={rgb2HexadecimalString(hsv2Rgb(newColor.hsv.h, newColor.hsv.s, newColor.hsv.v))} onInput={(event)=>handleChangeColor(event)} />
               </div>
               
               <div className='hex-sys sys'>
@@ -181,15 +218,15 @@ const AddNewColor = () => {
                 </div>
               </div>
 
-              <ToggleSwitch name={"favorite"} className={'favorite-toggle'} onToggle={()=>setAddColor(prev => ({...prev, isFavorite: !prev.isFavorite}))} isOn={addColor.isFavorite} isLoading={false}>
+              <ToggleSwitch name={"favorite"} className={'favorite-toggle'} onToggle={()=>setNewColor(prev => ({...prev, isFavorite: !prev.isFavorite}))} isOn={newColor.isFavorite} isLoading={false}>
                 <span>⭐Favori</span>
               </ToggleSwitch>
             </div>
-
           </div>
           <div className="act">
             <button type='reset' className='outline'>Annuler</button>
-            <button type='submit'>Ajouter</button>
+          <button type="submit">{(newColor.index !== null && newColor.index !== undefined) ? 'Modifier' : 'Ajouter'}</button>
+
           </div>
         </form> 
       </dialog>
@@ -197,4 +234,4 @@ const AddNewColor = () => {
   )
 }
 
-export default AddNewColor
+export default NewColor

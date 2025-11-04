@@ -27,7 +27,7 @@
   --color-light-max: 100;
 }
 
-.add-color .tooltip-parent .tooltip {
+.new-color-dialog .tooltip-parent .tooltip {
   min-width: 125px;
   top: 50%;
   bottom: initial;
@@ -35,8 +35,9 @@
   transform: translate(0.5rem, -50%);
 }
 
-.add-color-dialog {
+.new-color-dialog {
   padding: 1rem 1rem 1rem 1rem;
+  width: max-content;
   background: linear-gradient(
     90deg,
     hsl(var(--color-main-hue), calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%))
@@ -46,7 +47,7 @@
 
 
 @media (min-width: 380px) {
-.add-color-dialog {
+.new-color-dialog {
   padding: 1rem 1rem 1rem 2rem;
   background: 
     linear-gradient(
@@ -54,12 +55,12 @@
       hsl(var(--color-main-hue), calc(var(--color-main-saturation) * 1%), calc(var(--color-main-light) * 1%))
  1.5rem,  rgba(255, 255, 255, 1) 1.5rem
     );
-}
+  }
 }
 
 
 @media (min-width: 400px) {
-  .add-color-dialog {
+  .new-color-dialog {
     padding: 1rem 1rem 1rem 3.5rem;
     background: 
       linear-gradient(
@@ -71,31 +72,37 @@
 }
 
 
-dialog form {
-  max-height: 75vh;
+.new-color-dialog form {
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: left;
   gap: 0.5rem;
-    overflow: hidden;
-
+  width: 100%;
 }
 
 
-dialog form .title {
+.new-color-dialog form .title {
   align-self: center;
 }
 
-dialog form .setup {
+.new-color-dialog form .setup {
   font-size: 0.8rem;
   font-weight: 600;
 }
 
 .scrollable {
-    overflow-y: auto;
+  overflow-y: auto;
   scrollbar-width: thin;
-  border-radius: inherit; 
+  border-radius: inherit;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.scrollable:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .scrollable::-webkit-scrollbar {
@@ -107,14 +114,14 @@ dialog form .setup {
 }
 
 
-dialog form input[type="color"] {
+.new-color-dialog form input[type="color"] {
   height: 100px;
   width: 100px;
   aspect-ratio: 1 / 1;
 }
 
 
-dialog form .sys details summary{
+.new-color-dialog form .sys details summary{
   outline: none;
   appearance: none;
   box-shadow: none;
@@ -122,7 +129,7 @@ dialog form .sys details summary{
 }
 
 
-dialog form .act {
+.new-color-dialog form .act {
   align-self: flex-end;
 }
 
@@ -177,7 +184,7 @@ input[name="hexa"]{
   height: 50px;
   width: 50px;
   
-  border-radius: 9999px;
+  border-radius: 2.2rem;
 }
 
 /* Custom Picker */
@@ -245,6 +252,7 @@ input[name="hexa"]{
   align-items: center;
   position: relative;
 }
+
 
 .sys-wrapper .color-param .value{
   grid-column: 2 / 3;

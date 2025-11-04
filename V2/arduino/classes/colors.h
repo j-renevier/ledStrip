@@ -17,7 +17,7 @@ public:
 
 private:
   std::vector<Color> _colors;
-  size_t _maxFavoriteColors;
+  size_t _favoriteColorsLeft;
   size_t _maxColors;
 
 public:
@@ -27,8 +27,7 @@ public:
     uint8_t hue,
     uint8_t saturation,
     uint8_t value,
-    std::optional<bool> isFavorite = std::nullopt,
-    std::optional<int> rank = std::nullopt
+    std::optional<bool> isFavorite = std::nullopt
   );
 
   std::pair<Colors::Color*, int> updateColor(
@@ -36,8 +35,7 @@ public:
     std::optional<uint8_t> hue = std::nullopt,
     std::optional<uint8_t> saturation = std::nullopt,
     std::optional<uint8_t> value = std::nullopt,
-    std::optional<bool> isFavorite = std::nullopt,
-    std::optional<int> rank = std::nullopt
+    std::optional<bool> isFavorite = std::nullopt
   );
 
   bool areSame(const CHSV& c1, const CHSV& c2, uint8_t tolerence);

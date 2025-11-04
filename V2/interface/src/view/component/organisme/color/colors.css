@@ -1,3 +1,15 @@
+.color-top{
+  display: flex;
+  align-items: flex-start;
+  gap : 0.25rem
+}
+
+.color-limit{
+  display: flex;
+  gap : 0.5rem;
+}
+
+
 .selected-colors{
   display: flex;
   flex-wrap: wrap;
@@ -62,33 +74,47 @@
   max-width: 240px;
   display: flex;
   flex-direction: column;
-  gap: 0rem;
-  padding: 0.5rem 0.5rem 1rem;
+  gap: 0.25rem;
+  padding: 0.5rem;
   border-radius: 0.75rem;
   background: hsla(0, 0%, 95%, 0.5);
   box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.20);
-}
-
-.color-header{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem
+  position: relative;
 }
 
 .color-context{
-  position: relative;
-  margin : 0 18px 0 0;
+  position: absolute;
+  right: 0.5rem;
+  top: 0.25rem;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
-.is-favorite {
-  position: absolute;
-  bottom: 0;
+
+.color-context > * {
+  display: flex;
+  height: 17.58px;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.color-footer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .color-update{
   display: flex;
 }
+
+.is-favorite{
+  font-size: 1rem;
+}
+
 
 .color-info{
   display: flex; 
@@ -109,3 +135,22 @@
 }
 
 
+.delete-color-dialog{
+  width: max-content;
+}
+
+.delete-color-dialog form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.delete-color-dialog form .color-index{
+  font-weight: 700;
+}
+
+.delete-color-dialog form .act {
+  align-self: flex-end;
+}

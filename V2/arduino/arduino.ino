@@ -1,4 +1,4 @@
-#include "./configs/config.phone.h"
+#include "./configs/config.home.h"
 
 #include "./classes/lights.h"
 #include "./classes/manager.h"
@@ -16,7 +16,16 @@ extern "C" {
 }
 
 void printMemory() {
-  Serial.printf("Free heap: %u bytes\n", system_get_free_heap_size());
+  uint32_t free = ESP.getFreeHeap();
+  uint32_t maxBlock = ESP.getMaxFreeBlockSize();
+  uint8_t frag = ESP.getHeapFragmentation();
+  
+  Serial.printf("Free heap: %u bytes | Max block: %u | Fragmentation: %u%%\n", 
+                free, maxBlock, frag);
+  
+  if (free < 25000) {
+    Serial.println("⚠️⚠️⚠️ MEMORY WARNING ⚠️⚠️⚠️");
+  }
 }
 
 void setup()
@@ -25,6 +34,7 @@ void setup()
   pinMode(2, OUTPUT);
 
   Serial.println("*** Start ***");
+  ESP.wdtDisable();
 
   networks.begin(WIFI_SSID, WIFI_PASSWORD);
   lights.begin();
@@ -35,5 +45,45 @@ void setup()
 
 void loop()
 {
+  ESP.wdtFeed();  // Reset watchdog
+  
+  // Nettoyage WebSocket toutes les 3 secondes
+  static unsigned long lastCleanup = 0;
+  if (millis() - lastCleanup > 3000) {  
+    networks.cleanupWebSocket();
+    lastCleanup = millis();
+  }
+  
+  static unsigned long lastMemCheck = 0;
+  if (millis() - lastMemCheck > 10000) {
+    printMemory();
+    
+    // Afficher nombre de clients WebSocket
+    Serial.printf("WebSocket clients: %u\n", networks.getWebSocketClientCount());
+    
+    // ⚠️ Alerte si mémoire basse
+    uint32_t freeHeap = ESP.getFreeHeap();
+    if (freeHeap < 20000) {
+      Serial.printf("⚠️ LOW MEMORY: %u bytes\n", freeHeap);
+      
+      // Déconnecter tous les WebSockets si critique
+      if (freeHeap < 18000) {
+        Serial.println("💥 CRITICAL MEMORY - Closing all WebSocket clients");
+        networks.ws->closeAll();
+      }
+      
+      // Redémarrage si vraiment critique
+      if (freeHeap < 15000) {
+        Serial.println("💥💥 CRITICAL MEMORY - REBOOTING");
+        delay(1000);
+        ESP.restart();
+      }
+    }
+    
+    lastMemCheck = millis();
+  }
+
   lights.displayLightPattern();
+  
+  yield(); 
 }

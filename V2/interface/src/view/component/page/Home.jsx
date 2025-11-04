@@ -1,23 +1,20 @@
 import { useEffect, useRef, useState } from 'preact/hooks'
 
 import { useApi } from '../../hooks/useApi';
-import { getColors } from '../../../usecase/colors';
 import { getPatterns } from '../../../usecase/patterns';
-import { useAppContext } from '../../context/AppContext';
-import { useLightStore } from '../../store/useLightStore';
-import { useNetworkStore } from '../../store/useNetworkStore';
 
-import Colors from './Colors';
-import Networks from './Networks';
+import Colors from '../organisme/color/Colors';
+import Networks from '../organisme/networks/Networks';
 import Patterns from './Patterns';
 import Info from "../atome/Info";
 import Infos from "../molecule/Infos";
 import Header from '../organisme/Header';
-import Lights from './Lights';
+import Lights from '../organisme/lights/Lights';
 import LightsInfo from '../organisme/lights/LightsInfo';
 import NetworkInfo from '../organisme/networks/NetworkInfo';
 import ColorInfo from '../organisme/color/ColorInfo';
 import ArrowRotateIcon from '../atome/ArrowRotateIcon';
+import { useLightStore } from '../../store/useLightStore';
 
 
 
@@ -35,48 +32,79 @@ const Home = ({refresh}) => {
   const { request } = useApi();
   
   const [patterns, setPatterns] = useState(patternsInit)
+  const { light, fetchLight, fetchLightState, toggleLightState } = useLightStore();
 
 
   return (
     <main className='home'>
       <Header />
 
-      <article className='config'>
-        <div className='config-top'>
-          <h2>Configuration</h2>
-          <button className="outline fab" onClick={refresh}><ArrowRotateIcon/></button>
-        </div>
-        <div className='config-infos-wrapper'>
-          <div className='config-infos'>
-            <h3>Lumières</h3>
-            <LightsInfo/>
+      <details >
+        <summary className='one-line'>
+          <div className='config-top'>
+            <h2>Configuration</h2>
+            <button className="outline fab" onClick={refresh}><ArrowRotateIcon/></button>
           </div>
+          </summary>
+        <article className='config'>
 
-          <div>
+          <div className='config-infos-wrapper'>
             <div className='config-infos'>
-              <h3>Réseaux</h3>
-              <NetworkInfo/>
-
+              <h3>Lumières</h3>
+              <LightsInfo/>
             </div>
 
-            <div className='config-infos'>
-              <h3>Couleurs</h3>
-              <ColorInfo/>
-              <div>
+            <div>
+              <div className='config-infos'>
+                <h3>Réseaux</h3>
+                <NetworkInfo/>
+
+              </div>
+
+              <div className='config-infos'>
+                <h3>Couleurs</h3>
+                <ColorInfo/>
+                <div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </article>
+        </article>
+      </details>
 
 
-      <Lights />
 
       {/* <Patterns patterns={patterns} setPatterns={setPatterns} request={request} lights={lights} setLights={setLights} colors={colors}/> */}
 
-      <Colors />
+      <details open >
+        <summary className='one-line'>
+          <h2>Lumières</h2>
+            <ul>
+            <Info 
+              error={light.data?.state?.metadata?.error}
+              lastUpdated={light.data?.state?.metadata?.lastUpdated}
+              isLoading={light.data?.state?.metadata?.isLoading}
+              value={light.data.state.data.value ? '☀️' : '🌑'}
+            />
+          </ul>
+        </summary>
+        <Lights />
+      </details>
 
-      <Networks />
+      <details open >
+        <summary className='one-line'>
+          <h2>Couleurs</h2>
+        </summary>
+        <Colors />
+      </details>
+
+      <details open >
+        <summary className='one-line'>
+          <h2>Réseaux</h2>
+        </summary>
+        <Networks />
+      </details>
+
     </main>
   )
 }

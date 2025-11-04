@@ -153,7 +153,7 @@ export const useLightStore = create((set, get) => ({
     }));
   },
 
-  updateLightState: ({value=null, error=null, isLoading=null, lastUpdated=null}) => {
+  updateLightsState: ({value=null, error=null, isLoading=null, lastUpdated=null}) => {
     set(state => ({
       light: {
         ...state.light,

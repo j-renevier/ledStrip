@@ -19,16 +19,13 @@ main {
 
 h2{
   font-size: 1.2rem;
-  margin: 0.5rem 0;
 }
 
 h3{
-  margin: 0.5rem 0;
-}
-
-h4{
   margin: 0.25rem 0;
 }
+
+
 
 p {
   line-height: 1.5;
@@ -360,13 +357,12 @@ label.discreet ~ input{
 dialog {
   top: 50%;
   left: 50%;
-  transform: translate(calc(-50% - 2rem), calc(-50% - 2rem));
-  width: calc(100% - 4rem);
+  transform: translate(calc(-50%), calc(-50%));
+  width: 100%;
   border-radius: 0.75rem;
   border: none;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   padding: 1rem 1.5rem;
-  margin: 2rem;
 }
 
 dialog:focus {
@@ -431,7 +427,7 @@ article{
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.0rem;
 }
  
 
@@ -439,7 +435,7 @@ article{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  width: 100%;
 }
 
 .home .config .config-infos-wrapper {
@@ -460,3 +456,46 @@ article{
   overflow-x: auto; 
   padding: 0 0.25rem 0.25rem 0.25rem
 }
+
+
+
+summary.one-line {
+  display: flex;
+  border-radius: 0.25rem;
+  padding-left: 1rem;
+  margin: 0 0 0.25rem;
+  position: relative;
+  outline: none;
+  box-shadow: none;
+}
+
+
+summary.one-line:after {
+  content: '▶';
+  position: absolute;
+  width: 0.75rem;
+  height: 0.75rem;
+  font-size: 0.75rem;
+  top: 50%;
+  left: 0;
+  transform: translateY(-75%);
+}
+
+details[open] summary.one-line:after{
+  content: '▼';
+  font-size: 0.80rem;
+  transform: translateY(-50%);
+}
+
+.badge {
+  font-size: 0.7rem;
+  padding: calc(0px - 1px) calc(0.25rem - 1px);
+  border-radius: 9999rem;
+  background: linear-gradient(-5deg, hsla(222, 90%, 50%, 8%), hsla(217, 90%, 60%, 8%));
+  color:  hsl(222, 90%, 55%) ;
+  border: 0.1rem solid hsl(222, 90%, 55%) ;
+  min-width: 18.8px;
+  text-align: center;
+}
+
+

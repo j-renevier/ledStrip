@@ -68,6 +68,7 @@ void Networks::initWiFi(const char *ssid, const char *password)
   }
 
   onGotIP();
+  ESP.wdtEnable(10000);
   _serial.println("--- WIFI ---");
 }
 
@@ -89,7 +90,9 @@ void Networks::initHTTP()
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "Content-Type");
-
+  DefaultHeaders::Instance().addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  DefaultHeaders::Instance().addHeader("Connection", "close");
+  
   server->begin();
 
   _serial.println("--- HTTP ---");
@@ -130,6 +133,7 @@ void Networks::onPost(const char* route, RequestHandlerJson handler) {
       handler(request, json);
     }
   );
+  jsonHandler->setMethod(HTTP_POST);
   server->addHandler(jsonHandler);
 }
 
@@ -145,15 +149,17 @@ void Networks::onPatch(const char* route, RequestHandlerJson handler) {
   server->addHandler(jsonHandler);
 }
 
-
-void Networks::onDelete(const char *uri, RequestHandler handler)
+void Networks::onDelete(const char *route, RequestHandlerJson handler)
 {
-  enableCORS(uri);
-  server->on(uri, HTTP_DELETE, [handler](AsyncWebServerRequest *request)
-    {
-      handler(request);
+  enableCORS(route);
+  AsyncCallbackJsonWebHandler* jsonHandler = new AsyncCallbackJsonWebHandler(
+    route,
+    [handler](AsyncWebServerRequest *request, JsonVariant &json) {
+      handler(request, json);
     }
   );
+  jsonHandler->setMethod(HTTP_DELETE);
+  server->addHandler(jsonHandler);
 }
 
 
@@ -171,14 +177,27 @@ void Networks::serveStatic(const char *uri, const char *path)
 void Networks::initWebSocket()
 {
   _serial.println("*** Web socket ***");
-
+  
   ws->onEvent([this](AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)
     {
+      if (type == WS_EVT_CONNECT) {
+        if (server->count() > 2) {
+          _serial.println("WebSocket: Too many clients, rejecting connection");
+          client->close();
+          return;
+        }
+        _serial.printf("WebSocket client connected. Total clients: %u\n", server->count());
+      }
+      
+      if (type == WS_EVT_DISCONNECT) {
+        _serial.printf("WebSocket client disconnected. Total clients: %u\n", server->count());
+      }
+      
       this->onEvent(server, client, type, arg, data, len);
     }
   );
-  server->addHandler(ws);
   
+  server->addHandler(ws);
   _serial.println("--- Web socket ---");
 }
 

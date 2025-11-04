@@ -6,11 +6,12 @@
 #include "./classes/networks.h"
 #include "./classes/lightsPatternEnum.h"
 
+
 Manager::Manager(HardwareSerial &_serial, Networks &networks, Lights &lights, String version) : _serial(_serial), _networks(networks), _lights(lights), _version(version) {}
+
 
 void Manager::begin()
 {
-  // initWebSocket();
   initHTTP();
   
   _lightsPattern = LightsPattern();
@@ -74,7 +75,13 @@ void Manager::initHTTP()
       String output;
       serializeJson(doc, output);
 
+      Serial.println("Health endpoint called");
+
+      // Au lieu de :
       request->send(200, "application/json", output);
+
+      // Utilisez :
+      // sendJsonResponse(request, 200, output);
     }
   );
 
@@ -207,6 +214,7 @@ void Manager::initHTTP()
     }
   );
 
+
   _networks.onPost("/api/colors", [this](AsyncWebServerRequest *request, JsonVariant &json)
     {  
       if (!json.is<JsonObject>()) {
@@ -245,12 +253,9 @@ void Manager::initHTTP()
       if (body.containsKey("isFavorite")) {
         isFavorite = body["isFavorite"].as<bool>();
       }
+
       
-      if (body.containsKey("rank")) {
-        rank = body["rank"];
-      }
-      
-      auto [newColor, actualRank] = _lights._colors.addColor(hue, saturation, value, isFavorite, rank);
+      auto [newColor, actualRank] = _lights._colors.addColor(hue, saturation, value, isFavorite);
 
       if (!newColor) {
         request->send(500, "application/json", "{\"error\":\"Failed to add color\"}");
@@ -258,7 +263,7 @@ void Manager::initHTTP()
       }
 
       JsonDocument doc;
-      doc["id"] = actualRank;
+      doc["index"] = actualRank;
       doc["hue"] = newColor->hsv.h;
       doc["saturation"] = newColor->hsv.s;
       doc["value"] = newColor->hsv.v;
@@ -272,7 +277,95 @@ void Manager::initHTTP()
       request->send(200, "application/json",  output);
     }
   );
+
+    _networks.onPatch("/api/colors", [this](AsyncWebServerRequest *request, JsonVariant &json)
+    {  
+      if (!json.is<JsonObject>()) {
+          request->send(400, "application/json", "{\"error\":\"Invalid JSON object\"}");
+          return;
+      }
+
+      JsonObject body = json.as<JsonObject>();
+      size_t index;
+      std::optional<uint8_t> hue = std::nullopt;
+      std::optional<uint8_t> saturation = std::nullopt;
+      std::optional<uint8_t> value = std::nullopt;
+      std::optional<bool> isFavorite = std::nullopt;
+
+      if (body.containsKey("index")) {
+        index = body["index"];
+      } else {
+        request->send(400, "application/json", "{\"error\":\"Missing 'index' key\"}");
+        return;
+      }
+
+      if (body.containsKey("hue")) {
+        hue = body["hue"];
+      }
+      
+      if (body.containsKey("saturation")) {
+        saturation = body["saturation"];
+      }
+
+      if (body.containsKey("value")) {
+        value = body["value"];
+      }
+      
+      if (body.containsKey("isFavorite")) {
+        isFavorite = body["isFavorite"].as<bool>();
+      }
+      
+      auto [newColor, actualRank] = _lights._colors.updateColor(index, hue, saturation, value, isFavorite);
+
+      if (!newColor) {
+        request->send(500, "application/json", "{\"error\":\"Failed to update color\"}");
+        return;
+      }
+
+      JsonDocument doc;
+      doc["index"] = actualRank;
+      doc["hue"] = newColor->hsv.h;
+      doc["saturation"] = newColor->hsv.s;
+      doc["value"] = newColor->hsv.v;
+      doc["is_favorite"] = newColor->isFavorite;
+
+      String output;
+
+      serializeJson(doc, output);
+    
+      // _networks.notifyClients(output);
+      request->send(200, "application/json",  output);
+    }
+  );
+
+  _networks.onDelete("/api/colors", [this](AsyncWebServerRequest *request, JsonVariant &json)
+  {  
+    if (!json.is<JsonObject>()) {
+        request->send(400, "application/json", "{\"error\":\"Invalid JSON object\"}");
+        return;
+    }
+
+    JsonObject body = json.as<JsonObject>();
+    size_t index;
+
+    if (body.containsKey("index")) {
+      index = body["index"];
+    } else {
+      request->send(400, "application/json", "{\"error\":\"Missing 'index' key\"}");
+      return;
+    }
+
+    _lights._colors.deleteColor(index);
+
+    String output = _lights._colors.getColorsInfo();
+
+    // _networks.notifyClients(output);
+    request->send(200, "application/json", output);
+  });
+
 }
+
+
 
 
 // server.on("/api/lights/patterns", HTTP_POST, [](AsyncWebServerRequest *request){}, NULL,
