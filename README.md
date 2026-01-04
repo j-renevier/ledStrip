@@ -239,19 +239,24 @@ Verison : 1.5.4 (lts 11/06/2025)
 
 #include <Arduino.h>
 #include <FastLED.h>
-#include <LittleFS.h>
-#include <AsyncJson.h>
-#include <ESP8266WiFi.h>
 #include <ArduinoJson.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+
+#include <LittleFS.h>
+#include <AsyncJson.h>
+#include <ESP8266WiFi.h>
 ```
 
-#### FastLED
+
+#### ArduinoJson
 
 Nom de la bibliotheque : ArduinoJson
 Développé par : Benoit Blanchon 
 Verison : 7.4.1 (lts 25/05/2025)
+
+
+#### FastLED
 
 [Github FastLED](https://github.com/FastLED/FastLED)
 

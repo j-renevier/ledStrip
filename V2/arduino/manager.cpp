@@ -12,9 +12,13 @@ Manager::Manager(HardwareSerial &_serial, Networks &networks, Lights &lights, St
 
 void Manager::begin()
 {
-  initHTTP();
-  
+  initHTTP(); 
+
+  initWebSocket();
+
   _lightsPattern = LightsPattern();
+
+  _networks.startServer();
 }
 
 void Manager::initWebSocket()

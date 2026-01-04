@@ -87,15 +87,25 @@ void Networks::initLittleFS()
 void Networks::initHTTP()
 {
   _serial.println("*** HTTP ***");
+  
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "Content-Type");
-  DefaultHeaders::Instance().addHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-  DefaultHeaders::Instance().addHeader("Connection", "close");
   
-  server->begin();
+  server->onNotFound([this](AsyncWebServerRequest *request) {
+    if (request->method() == HTTP_OPTIONS) {
+      request->send(204);
+    } else {
+      request->send(404, "application/json", "{\"error\":\"Not found\"}");
+    }
+  });
 
   _serial.println("--- HTTP ---");
+}
+
+void Networks::startServer() {
+    server->begin();
+    _serial.println("Server started !");
 }
 
 void Networks::enableCORSGlobal() {
@@ -117,7 +127,6 @@ void Networks::enableCORS(const char* route) {
 
 void Networks::onGet(const char *uri, RequestHandler handler)
 {
-  enableCORS(uri);
   server->on(uri, HTTP_GET, [handler](AsyncWebServerRequest *request)
     {
       handler(request);
@@ -126,7 +135,6 @@ void Networks::onGet(const char *uri, RequestHandler handler)
 }
 
 void Networks::onPost(const char* route, RequestHandlerJson handler) {
-  enableCORS(route);
   AsyncCallbackJsonWebHandler* jsonHandler = new AsyncCallbackJsonWebHandler(
     route,
     [handler](AsyncWebServerRequest *request, JsonVariant &json) {
@@ -138,7 +146,6 @@ void Networks::onPost(const char* route, RequestHandlerJson handler) {
 }
 
 void Networks::onPatch(const char* route, RequestHandlerJson handler) {
-  enableCORS(route);
   AsyncCallbackJsonWebHandler* jsonHandler = new AsyncCallbackJsonWebHandler(
     route,
     [handler](AsyncWebServerRequest *request, JsonVariant &json) {
@@ -151,7 +158,6 @@ void Networks::onPatch(const char* route, RequestHandlerJson handler) {
 
 void Networks::onDelete(const char *route, RequestHandlerJson handler)
 {
-  enableCORS(route);
   AsyncCallbackJsonWebHandler* jsonHandler = new AsyncCallbackJsonWebHandler(
     route,
     [handler](AsyncWebServerRequest *request, JsonVariant &json) {
@@ -165,8 +171,6 @@ void Networks::onDelete(const char *route, RequestHandlerJson handler)
 
 void Networks::serveStatic(const char *uri, const char *path)
 {
-  enableCORS(uri);
-
   AsyncStaticWebHandler* handler = new AsyncStaticWebHandler(uri, LittleFS, path, "no-cache");
   handler->setDefaultFile("index.html");
 

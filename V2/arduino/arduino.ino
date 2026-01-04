@@ -7,7 +7,7 @@
 String version = "2.0.0";
 
 Lights lights(Serial, NUM_LEDS, SPEED);
-Networks networks(Serial, ENVIRONMENT, IP, GATEWAY, SUBNET);
+Networks networks(Serial, ENVIRONMENT, IP, GATEWAY, S*UBNET);
 
 Manager manager(Serial, networks, lights, version);
 

@@ -40,7 +40,7 @@ protected:
   std::function<void(AsyncWebSocketClient *)> connectHandler;
   std::function<void(AsyncWebSocketClient *)> disconnectHandler;
   std::function<void(AsyncWebSocketClient *, const char *)> errorHandler;
-
+  
   
   void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
   
@@ -48,9 +48,10 @@ protected:
   AsyncWebServer *server;
   AsyncWebSocket *ws;    
   Networks(HardwareSerial &_serial, String _env, uint8_t configIP[4], uint8_t configGateway[4], uint8_t configSubnet[4]);
-
+  
   String getNetworkInfo();
-
+  
+  void startServer();
   void begin(const char *ssid, const char *password);
   void enableCORSGlobal();
   void enableCORS(const char* route);
