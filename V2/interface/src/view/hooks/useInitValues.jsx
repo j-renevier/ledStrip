@@ -1,11 +1,10 @@
-
+import { useEffect } from 'preact/hooks';
 
 import { useApi } from './useApi';
 import { useAppContext } from '../context/AppContext';
 import { useLightStore } from '../store/useLightStore';
 import { useColorStore } from '../store/useColorStore';
 import { useNetworkStore } from '../store/useNetworkStore';
-import { useEffect } from 'preact/hooks';
 
 export const useInitValues = () => {
   const { request } = useApi();

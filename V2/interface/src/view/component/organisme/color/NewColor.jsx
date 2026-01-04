@@ -225,7 +225,7 @@ const NewColor = ({title = 'Nouvelle couleur', children='Nouvelle couleur', clas
           </div>
           <div className="act">
             <button type='reset' className='outline'>Annuler</button>
-          <button type="submit">{(newColor.index !== null && newColor.index !== undefined) ? 'Modifier' : 'Ajouter'}</button>
+            <button type="submit" className='first'>{(newColor.index !== null && newColor.index !== undefined) ? 'Modifier' : 'Ajouter'}</button>
 
           </div>
         </form> 

@@ -111,6 +111,11 @@ export const rgb2HexadecimalString = ({r, g, b}) => {
   return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
 }
 
+
+export const hsv2HexadecimalString  = (h, s, v) => {
+  return rgb2HexadecimalString(hsv2Rgb(h, s, v))
+}
+
 export const hsv2Hsl = (h, s, v) => {
   s /= 100;
   v /= 100;

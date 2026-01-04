@@ -5,7 +5,7 @@ import { getPatterns } from '../../../usecase/patterns';
 
 import Colors from '../organisme/color/Colors';
 import Networks from '../organisme/networks/Networks';
-import Patterns from './Patterns';
+import Patterns from '../organisme/pattern/Patterns';
 import Info from "../atome/Info";
 import Infos from "../molecule/Infos";
 import Header from '../organisme/Header';
@@ -72,10 +72,6 @@ const Home = ({refresh}) => {
         </article>
       </details>
 
-
-
-      {/* <Patterns patterns={patterns} setPatterns={setPatterns} request={request} lights={lights} setLights={setLights} colors={colors}/> */}
-
       <details open >
         <summary className='one-line'>
           <h2>Lumières</h2>
@@ -96,6 +92,13 @@ const Home = ({refresh}) => {
           <h2>Couleurs</h2>
         </summary>
         <Colors />
+      </details>
+
+      <details open >
+        <summary className='one-line'>
+          <h2>Schéma</h2>
+        </summary>
+        <Patterns />
       </details>
 
       <details open >

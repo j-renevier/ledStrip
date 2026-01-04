@@ -10,7 +10,7 @@ import ColorsPage from '../page/ColorsPage';
 import Documentation from '../page/Documentation';
 import LightsPage from '../page/LightsPage';
 import NetworksPage from '../page/NetworksPage';
-import ThreePage from '../page/ThreePage';
+import PatternsPage from '../page/PatternsPage';
 
 const Route = () => {
   const { basePath } = useAppContext()
@@ -25,7 +25,7 @@ const Route = () => {
       <ColorsPage path={basePath + "colors"} />
       <LightsPage path={basePath + "lights"} />
       <NetworksPage path={basePath + "networks"} />
-      <ThreePage path={basePath + "three"} />
+      <PatternsPage path={basePath + "patterns"} />
     </Router>
 
   )

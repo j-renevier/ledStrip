@@ -11,6 +11,8 @@ import TrashIcon from '../../atome/TrashIcon';
 
 import './colors.css'
 
+
+
 const DisplayColors = (colors) => {
 
   const dialogRef = useRef(null);
@@ -119,3 +121,5 @@ const DisplayColors = (colors) => {
     </section>
   );
 };
+
+export default DisplayColors

@@ -175,17 +175,3 @@ export const useLightStore = create((set, get) => ({
     }));
   },
 }));
-
-
-  // const light = useLighttore(state => state.light); // tout l'objet
-  // const lighttate = useLighttore(state => state.light.data.state.data.value);
-  // const globalMetadata = useLighttore(state => state.light.metadata);
-  // const stateMetadata = useLighttore(state => state.light.data.state.metadata);
-  // const { light, fetchLight, fetchLightState, toggleLightState } = useLighttore();
-  // const { light, fetchLight, fetchLightState, toggleLightState } = useLighttore();
-
-  // useEffect(() => {
-  //   if (!light?.data?.leds_pin) {
-  //     fetchLight(request);
-  //   }
-  // }, []);

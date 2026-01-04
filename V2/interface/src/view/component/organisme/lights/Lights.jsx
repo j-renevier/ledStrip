@@ -14,7 +14,7 @@ const Lights = () => {
   const { request } = useApi();
   
   useEffect(() => {
-    if (!light.metadata.isLoading || light.metadata.lastUpdated) {
+    if (!light.metadata.isLoading && !light.metadata.lastUpdated) {
       fetchLight(request);
     }
   }, []);

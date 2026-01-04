@@ -14,7 +14,7 @@ export const useApi = () => {
     setLoading(true);
     setError(null);
     setData(null);
-
+    
     try {
       const response = await fetch(baseUrl + endpoint, {
         method,
