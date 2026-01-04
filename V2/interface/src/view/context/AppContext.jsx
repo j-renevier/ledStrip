@@ -9,7 +9,7 @@ export const AppProvider = ({ children }) => {
   const basePath = import.meta.env.VITE_BASE_PATH || '/';
 
   const protocole = import.meta.env.VITE_API_PROTOCOLE || 'http';
-  const [host, setHost] = useState(import.meta.env.VITE_API_HOST || getKnowHost()[0]['ip'] || '192.168.1.189');
+  const [host, setHost] = useState(import.meta.env.VITE_API_HOST || getKnowHost()[0]['ip'] || '192.168.1.201');
   const port = import.meta.env.VITE_API_PORT || '80';
   const rootApi = import.meta.env.VITE_API_ROOT_PATH || '/api/';
   const protocolSocket = import.meta.env.VITE_API_PROTOCOLE_SOCKET || 'ws';

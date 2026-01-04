@@ -41,7 +41,7 @@ export const dateToHourFrFormat = (timestamp) => {
 
 export const getKnowHost = () =>{
   return [
-    { label: '🏠 Maison', ip: '192.168.1.189' },
+    { label: '🏠 Maison', ip: '192.168.1.201' },
     { label: '☎️ Téléphone', ip: '192.168.233.189'},
     { label: '📍 Défaut', ip: '192.168.1.1' },
   ]
